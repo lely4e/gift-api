@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authFetch } from "../utils/auth";
+import { authFetch } from "../utils/api/auth";
 import toast from "react-hot-toast";
 import { API_URL } from "../config";
 import { pollSchema, type PollFormErrors } from "../schemas/pollSchema";
@@ -91,9 +91,12 @@ export default function PollAdd() {
           <div className="gap-6 w-full my-10 mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             <form onSubmit={handleSubmit}>
               <div
-                className="box-content bg-white/50 backdrop-blur-md rounded-[30px] p-6 
+                className="box-content poll-card backdrop-blur-md rounded-[30px] p-6 
               flex flex-col shadow-[0_-1px_25px_rgba(0,0,0,0.1)] transition-all duration-250 ease-in-out h-full 
               hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
+                style={{
+                  backgroundColor: 'var(--card-bg)',
+                }}
               >
 
                 {/* poll-text */}
@@ -106,7 +109,9 @@ export default function PollAdd() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
-                    className={`text-left m-0 font-bold text-3xl text-black 
+                    style={{ color: 'var(--text-primary)' }}
+
+                    className={`text-left m-0 font-bold text-3xl 
                        ${errors.title ? "border-b border-red-400" : "border-[#737791]"}`}
                   />
                   {errors.title && (
@@ -115,7 +120,7 @@ export default function PollAdd() {
                 </div>
                 <div className="flex justify-between items-start gap-5 mt-2.5 text-sm text-black">
 
-                  <label htmlFor="budget" className="text-black ">
+                  <label htmlFor="budget" className="" style={{ color: 'var(--text-primary)' }}>
                     Budget $
                   </label>
                   <input
@@ -126,7 +131,8 @@ export default function PollAdd() {
                     value={budget}
                     onChange={(e) => setBudget(e.target.value)}
                     required
-                    className={`flex-1  text-sm text-black
+                    style={{ color: 'var(--text-primary)' }}
+                    className={`flex-1  text-sm 
                    ${errors.budget ? "border-b border-red-400" : "border-[#737791]"}`}
                   />
 
@@ -143,7 +149,8 @@ export default function PollAdd() {
                     placeholder="Here is a short description you could add to your poll"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className={`flex w-full text-left  mt-2.5 text-sm text-[#737791] font-serif italic pt-1 pb-1
+                    style={{ color: 'var(--text-primary)' }}
+                    className={`flex w-full text-left  mt-2.5 text-sm font-serif italic pt-1 pb-1
                   ${errors.description ? "border-b border-red-400" : "border-[#737791]"}`}
                   />
 
@@ -174,7 +181,7 @@ export default function PollAdd() {
                   <button
                     id="submitButton"
                     type="submit"
-                    className="justify-center items-center  mx-auto w-full h-12 bg-linear-to-r from-[#FF8A5B] to-[#FF6A00] rounded-3xl text-white cursor-pointer"
+                    className="justify-center items-center  mx-auto w-full h-12 bg-linear-to-r from-[#ff6a00] to-[#ec4899] hover:shadow-[0_6px_28px_rgba(255,138,91,0.5)] duration-200 rounded-3xl text-white cursor-pointer"
                   >
                     Create Poll
                   </button>

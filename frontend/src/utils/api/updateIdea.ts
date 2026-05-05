@@ -1,7 +1,8 @@
 import toast from "react-hot-toast";
-import { API_URL } from "../config";
+import type { TitleItem } from "../types";
 import { authFetch } from "./auth";
-import type { TitleItem } from "./types";
+import { API_URL } from "../../config";
+
 
 export const updateIdea = async (
   id: number,

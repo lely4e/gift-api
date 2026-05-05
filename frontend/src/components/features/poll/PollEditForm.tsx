@@ -1,6 +1,6 @@
-import Toggle from "./Toggle";
+import Toggle from "../../ui/Toggle";
 import toast from "react-hot-toast";
-import type { PollFormErrors } from "../schemas/pollSchema";
+import type { PollFormErrors } from "../../../schemas/pollSchema";
 import { ClockIcon } from "@phosphor-icons/react";
 
 interface PollEditFormProps {
@@ -36,9 +36,12 @@ export default function PollEditForm({
 }: PollEditFormProps) {
     return (
         <div
-            className="bg-white/50 backdrop-blur-md rounded-[30px] p-6 
+            className="poll-card backdrop-blur-md rounded-[30px] p-6 
             flex flex-col shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)] 
             transition-all duration-250 h-4/5"
+            style={{
+                backgroundColor: 'var(--card-bg)',
+            }}
         >
             <div className="flex justify-between gap-2.5">
 
@@ -49,6 +52,7 @@ export default function PollEditForm({
                         value={editedTitle}
                         onChange={(e) => setEditedTitle(e.target.value)}
                         required
+                        style={{ color: 'var(--text-primary)' }}
                         className={`w-full border-b bg-transparent outline-none text-left font-bold text-3xl text-black
                             ${errors.title ? "border-red-400" : "border-[#737791]"}`}
                     />
@@ -71,13 +75,14 @@ export default function PollEditForm({
                     />
                 </div>
             </div>
-            <div className="flex items-start mt-2.5 text-sm text-black">
+            <div className="flex items-start mt-2.5 text-sm text-black" style={{ color: 'var(--text-primary)' }}>
                 Budget: $
                 <input
                     type="number"
                     name="budget"
                     value={editedBudget}
                     onChange={(e) => setEditedBudget(Number(e.target.value))}
+                    style={{ color: 'var(--text-primary)' }}
                     className={`border-b bg-transparent outline-none focus:outline-none flex justify-between items-start text-sm text-black
                     ${errors.budget ? "border-red-400" : "border-[#737791]"}`}
                 />
@@ -94,6 +99,7 @@ export default function PollEditForm({
                     name="description"
                     value={editedDescription}
                     onChange={(e) => setEditedDescription(e.target.value)}
+                    style={{ color: 'var(--text-heading)' }}
                     className={`border-b bg-transparent outline-none flex text-left mt-2.5 text-sm text-[#737791] font-serif italic
                 ${errors.description ? "border-red-400" : "border-[#737791]"}`}
                 />
@@ -115,6 +121,7 @@ export default function PollEditForm({
                     <button
                         onClick={cancelEditing}
                         className="ml-40 px-6 py-2 w-full flex-1 items-center text-base justify-center border border-[#737791] text-[#737791] hover:bg-[#B0B6CC] hover:border-[#B0B6CC] hover:text-white transition-colors font-normal rounded-full cursor-pointer"
+                        style={{ color: 'var(--text-primary)' }}
                     >
                         Cancel
                     </button>

@@ -1,14 +1,14 @@
 import { useState, useCallback } from "react";
-import { authFetch } from "../utils/auth";
-import type { SearchProps, ProductSearch } from "../utils/types";
+import { authFetch } from "../../../utils/api/auth";
+import type { SearchProps, ProductSearch } from "../../../utils/types";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import StarRating from "./Stars";
-import { API_URL } from "../config";
-import { searchSchema, type SearchFormErrors } from "../schemas/searchSchema";
-import { useCarousel } from "../hooks/useCarousel";
+import { API_URL } from "../../../config";
+import { searchSchema, type SearchFormErrors } from "../../../schemas/searchSchema";
+import { useCarousel } from "../../../hooks/useCarousel";
 import { ArrowLeftIcon, ArrowRightIcon, CaretUpIcon, CheckIcon, MagnifyingGlassIcon, PlusIcon } from "@phosphor-icons/react";
-import { Tooltip } from "./Tooltip";
+import { Tooltip } from "../../ui/Tooltip";
+import StarRating from "../../ui/Stars";
 
 export type Layout = "poll" | "gift";
 
@@ -211,9 +211,12 @@ export default function Search({
             onClick={() => setOpenCard && setOpenCard((prev) => !prev)}
             className="group relative flex items-center justify-center cursor-pointer
                        w-12 h-12 rounded-full transition hover:bg-[#B0B6CC]
-                       bg-white/60 text-[#737791] hover:text-white
+                       poll-card  hover:text-white
                        shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)]
                        duration-250 ease-in-out"
+            style={{
+              backgroundColor: 'var(--card-bg)',
+            }}
           >
             {!openCard ? (
               <>
@@ -282,34 +285,39 @@ export default function Search({
                 >
                   <div
                     className="flex flex-col gap-4
-                                bg-white rounded-[30px] p-6
+                                poll-card rounded-[30px] p-6
                                 shadow-md transition
                                 hover:-translate-y-1 hover:shadow-xl"
+                    style={{
+                      backgroundColor: 'var(--card-bg)',
+                    }}
                   >
                     {/* Image */}
                     <div
-                      className="h-32.5 flex items-center justify-center
+                      className="h-40 flex items-center justify-center pt-3 pb-3 
                                   hover:text-[#0096FF] hover:cursor-pointer"
                       onClick={() => window.open(product.link, "_blank")}
                     >
-                      <img
-                        src={product.image}
-                        alt={product.title}
-                        className="max-h-full object-contain"
-                      />
+                      <div className="w-full p-3 h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden">
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          className="max-h-full object-contain"
+                        />
+                      </div>
                     </div>
 
                     {/* Content */}
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-3" >
                       {/* Rating + Price */}
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-center">
+                      <div className="flex justify-between items-center" >
+                        <div className="flex items-center" >
                           <StarRating rating={product.rating} color="#F25E0D" />
-                          <span className="text-sm ml-0 text-[#737791] font-semibold">
+                          <span className="text-sm ml-0 text-[#737791] font-semibold" style={{ color: 'var(--text-primary)' }}>
                             {product.rating}
                           </span>
                         </div>
-                        <span className="text-lg font-extrabold text-[#737791]">
+                        <span className="text-lg font-extrabold text-[#737791]" style={{ color: 'var(--text-primary)' }}>
                           ${product.price}
                         </span>
                       </div>
@@ -317,9 +325,10 @@ export default function Search({
                       {/* Title */}
                       <div
                         data-testid="productTitle"
-                        className="text-sm font-semibold leading-snug line-clamp-2 text-left
+                        className="text-sm font-semibold leading-snug line-clamp-2 text-left text-[#737791] 
                                     hover:text-[#0096FF] hover:cursor-pointer "
                         onClick={() => window.open(product.link, "_blank")}
+                        style={{ color: 'var(--text-primary)' }}
                       >
                         {truncate(product.title, 100)}
                       </div>

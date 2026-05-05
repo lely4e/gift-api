@@ -20,7 +20,10 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       }}
     >
       <div
-        className="bg-white p-10 rounded-2xl"
+        className="poll-card p-10 rounded-2xl"
+        style={{
+          backgroundColor: 'var(--modal-card-bg)',
+        }}
         onClick={(event) => {
           event.stopPropagation();
           event.preventDefault();

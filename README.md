@@ -1,4 +1,5 @@
 # 🎈 Choosr — Collaborative Polls & Event Voting App
+![App Screenshot](./assets/main_page14.jpg)
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.118.0-009688.svg)
@@ -13,20 +14,11 @@
 ![Gemini](https://img.shields.io/badge/Google-Gemini-8E75B2.svg?logo=google)
 
 
-<table>
-  <tr>
-    <td><img src="./assets/9.png" width="full"/></td>
-    <td><img src="./assets/main_page1.png" width="full"/></td>
-    <td><img src="./assets/6.png" width="full"/></td>
-  </tr>
-</table>
-
-
 A full-stack app with a **FastAPI** backend and **React + TypeScript** frontend for creating collaborative polls and event-based voting. Users can share event links, add products via Amazon Search API, get **AI-powered gift suggestions via Google Gemini**, and vote on their favorites — making group decision-making simple and interactive.
 
 Features JWT authentication, PostgreSQL with SQLAlchemy ORM, Redis caching, Alembic migrations, automated poll deadline management, and full CRUD support. Perfect for event planning, group shopping, and collaborative voting apps.
 
-> 🌐 **Frontend:** `https://choosr-pied.vercel.app/` &nbsp;|&nbsp; 📡 **API Docs:** [choosr-api.onrender.com/docs](https://choosr-api.onrender.com/docs)
+> 🌐 **Frontend:** https://choosr-pied.vercel.app/ &nbsp;|&nbsp; 📡 **API Docs:** https://choosr-api.onrender.com/docs
 
 
 ## 🔐 Authentication & Access Control

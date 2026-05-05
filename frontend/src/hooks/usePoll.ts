@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { authFetch } from "../utils/auth";
+import { authFetch } from "../utils/api/auth";
 import { API_URL } from "../config";
 import toast from "react-hot-toast";
 import { type Poll } from "../utils/types";
-import { deletePoll } from "../utils/deletePoll";
-import { updatePoll } from "../utils/updatePoll";
+import { deletePoll } from "../utils/api/deletePoll";
 import { useNavigate } from "react-router-dom";
 import { pollSchema, type PollFormErrors } from "../schemas/pollSchema";
+import { updatePoll } from "../utils/api/updatePoll";
 
 export function usePoll(uuid: string | undefined) {
     const [poll, setPoll] = useState<Poll | null>(null);

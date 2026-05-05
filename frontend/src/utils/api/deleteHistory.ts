@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { API_URL } from "../config";
+import { API_URL } from "../../config";
 import { authFetch } from "./auth";
 
 export const deleteHistory = async (uuid: string, historyId: number): Promise<void> => {

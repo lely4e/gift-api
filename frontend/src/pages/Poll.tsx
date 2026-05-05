@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Search from "../components/Search";
-import Ideas from "../components/Ideas";
-import Products from "../components/Products";
+import Search from "../components/features/search/Search";
+import Ideas from "../components/features/ideas/Ideas";
+import Products from "../components/features/poll/Products";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useUser } from "../context/UserContext";
 import { Link } from "react-router-dom";
-import AddProductCard from "../components/AddProduct";
-import HistoryPanel from "../components/HistoryPanel";
+import AddProductCard from "../components/features/product/AddProduct";
 import { useHistory } from "../hooks/useHistory";
 import { useActivities } from "../hooks/useActivities";
 import { useProducts } from "../hooks/useProducts";
 import { usePoll } from "../hooks/usePoll";
-import PollCard from "../components/PollCard";
-import PollEditForm from "../components/PollEditForm";
+import PollEditForm from "../components/features/poll/PollEditForm";
 import { ArrowLeftIcon } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
+import HistoryPanel from "../components/features/history/HistoryPanel";
+import PollCard from "../components/features/poll/PollCard";
 
 export default function PollPage() {
     const { user } = useUser();
@@ -116,7 +116,7 @@ export default function PollPage() {
                     transition={{ delay: 0, duration: 0.6 }}>
                     <Link
                         to="/my-polls"
-                        className="flex items-center gap-3 text-[#6366f1] hover:text-[#4F46E5] text-left text-[14px]"
+                        className="flex items-center gap-3 text-[#8f91fc] hover:text-[#6b63ff] text-left text-[14px]"
                     >
                         <ArrowLeftIcon size={16} weight="bold" /> Back to polls
                     </Link>

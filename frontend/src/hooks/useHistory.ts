@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { authFetch } from "../utils/auth";
-import { deleteHistory } from "../utils/deleteHistory";
+import { authFetch } from "../utils/api/auth";
+import { deleteHistory } from "../utils/api/deleteHistory";
 import { API_URL } from "../config";
 import type { History } from "../utils/types";
 import toast from "react-hot-toast";

@@ -1,14 +1,14 @@
 import { useState } from "react";
-import type { ProductsProps, Product, Comment } from "../utils/types";
-import { authFetch } from "../utils/auth";
-import { useUser } from "../context/UserContext";
+import type { ProductsProps, Product, Comment } from "../../../utils/types";
+import { authFetch } from "../../../utils/api/auth";
+import { useUser } from "../../../context/UserContext";
 import toast from "react-hot-toast";
 import ReactDOM from "react-dom";
 import confetti from "canvas-confetti";
-import StarRating from "./Stars";
-import { API_URL } from "../config";
+import { API_URL } from "../../../config";
 import { ChatCircleTextIcon, CheckIcon, DotIcon, ThumbsUpIcon, TrashSimpleIcon, XIcon } from "@phosphor-icons/react";
-import { Tooltip } from "./Tooltip";
+import { Tooltip } from "../../ui/Tooltip";
+import StarRating from "../../ui/Stars";
 
 
 export default function Products({
@@ -245,12 +245,15 @@ export default function Products({
                             <div
                                 data-testid={`product-${product.id}`}
                                 className="relative 
-                                bg-white/[0.841]
+                               poll-card
                                 max-w-200 backdrop-blur-[10px] rounded-[30px] p-6 
                                 flex shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)] 
                                 transition-all duration-250 ease-in-out gap-3 
                                 hover:-translate-y-1 
                                 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
+                                style={{
+                                    backgroundColor: 'var(--card-bg)',
+                                }}
                             >
                                 {/* product-image-container */}
                                 <div
@@ -265,18 +268,18 @@ export default function Products({
                                 </div>
 
                                 {/* product-text */}
-                                <div className="flex flex-col pl-5 text-left flex-1">
+                                <div className="flex flex-col pl-5 text-left flex-1" style={{ color: 'var(--text-primary)' }}>
                                     {/* product-title-price */}
                                     <div className="flex justify-between items-start gap-5">
-                                        <div className="flex text-sm text-[#555] gap-2.5 items-center">
-                                            <div className="flex items-center text-[#737791]">
+                                        <div className="flex text-sm gap-2.5 items-center">
+                                            <div className="flex items-center ">
                                                 <StarRating rating={product.rating} />
                                             </div>
-                                            <div className="text-[#737791]">
+                                            <div className="">
                                                 <strong>{product.rating}</strong>
                                             </div>
                                         </div>
-                                        <div className="text-2xl font-extrabold text-[#737791] mb-2">
+                                        <div className="text-2xl font-extrabold text-[#737791] mb-2" style={{ color: 'var(--text-primary)' }}>
                                             ${product.price}
                                         </div>
                                     </div>
@@ -295,7 +298,7 @@ export default function Products({
                                     </div>
 
                                     {/* action buttons row */}
-                                    <div className="flex justify-between items-end gap-5 py-2.5">
+                                    <div className="flex justify-between items-end gap-5 py-2.5" style={{ color: 'var(--text-primary)' }}>
                                         <div className="flex">
 
                                             {user && user.id === product.user_id && (
@@ -303,23 +306,23 @@ export default function Products({
                                                     onClick={() => setOpen(product.id)}
                                                     className="group relative 
                                                 
-                                                cursor-pointer whitespace-nowrap text-[#737791] bg-transparent text-[0.85rem] 
+                                                cursor-pointer whitespace-nowrap bg-transparent text-[0.85rem] 
                                                 rounded-[20px] flex gap-1.5 justify-center items-center hover:text-[#F25E0D] "
                                                 >
-                                                    <TrashSimpleIcon size={17} strokeWidth={2} data-testid="delete-icon"/>
+                                                    <TrashSimpleIcon size={17} strokeWidth={2} data-testid="delete-icon" />
                                                     <Tooltip text="Delete Product" />
                                                 </button>
                                             )}
                                         </div>
 
                                         <div className="flex text-sm gap-1 items-center">
-                                            <div className="flex text-sm gap-3 items-center">
+                                            <div className="flex text-sm gap-3 items-center" style={{ color: 'var(--text-primary)' }}>
                                                 <button
                                                     className={`group relative 
                                                     flex gap-1 justify-center items-center whitespace-nowrap text-[0.85rem] cursor-pointer
                                                 ${openCommentsProductId === product.id
-                                                            ? "text-[#F25E0D] " 
-                                                            : "bg-transparent text-[#737791]  hover:text-[#F25E0D] "
+                                                            ? "text-[#F25E0D] "
+                                                            : "bg-transparent  hover:text-[#F25E0D] "
                                                         }`}
                                                     onClick={(e) => {
                                                         e.preventDefault();
@@ -328,55 +331,59 @@ export default function Products({
                                                     }}
                                                 >
                                                     {product.comments > 0 ?
-                                                    <>
-                                                    <ChatCircleTextIcon size={17} strokeWidth={2} weight="fill" data-testid="chat-icon"/>
-                                                    {product.comments}
-                                                    <Tooltip text="Comments" />
-                                                    </>
-                                                    :
-                                                    <>
-                                                    <ChatCircleTextIcon size={17} strokeWidth={2} data-testid="chat-icon" />
-                                                    {product.comments}
-                                                    <Tooltip text="Comments" />
-                                                    </>}
+                                                        <>
+                                                            <ChatCircleTextIcon size={17} strokeWidth={2} weight="fill" data-testid="chat-icon" />
+                                                            {product.comments}
+                                                            <Tooltip text="Comments" />
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <ChatCircleTextIcon size={17} strokeWidth={2} data-testid="chat-icon" />
+                                                            {product.comments}
+                                                            <Tooltip text="Comments" />
+                                                        </>}
                                                 </button>
 
-                                                <div className="flex items-center gap-1 justify-center ">
-                                                  
+                                                <div className="flex items-center gap-1 justify-center " style={{ color: 'var(--text-primary)' }}>
+
                                                     {product.has_voted ?
-                                                    <>
-                                                      <ThumbsUpIcon
-                                                        size={17}
-                                                        weight="fill"
-                                                        strokeWidth={2}
-                                                        className="text-[#F25E0D]"
-                                                        data-testid="vote-icon"
-                                                    />
-                                                    <div className="text-[#F25E0D] ">
-                                                        {product.votes}
-                                                    </div>
-                                                    </>
-                                                    : 
-                                                    <>
-                                                    <ThumbsUpIcon
-                                                        size={17}
-                                                        // weight="fill"
-                                                        strokeWidth={2}
-                                                        className="text-[#737791]"
-                                                        data-testid="vote-icon"
-                                                    />
-                                                     <div className="text-[#737791] ">
-                                                        {product.votes}
-                                                    </div>
-                                                    </>
+                                                        <>
+                                                            <ThumbsUpIcon
+                                                                size={17}
+                                                                weight="fill"
+                                                                strokeWidth={2}
+                                                                className="text-[#F25E0D]"
+                                                                data-testid="vote-icon"
+                                                            />
+                                                            <div className="text-[#F25E0D] ">
+                                                                {product.votes}
+                                                            </div>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <ThumbsUpIcon
+                                                                size={17}
+
+                                                                strokeWidth={2}
+                                                                className=""
+                                                                data-testid="vote-icon"
+                                                            />
+                                                            <div className="">
+                                                                {product.votes}
+                                                            </div>
+                                                        </>
                                                     }
                                                 </div>
                                             </div>
                                             <div>
                                                 {open === product.id &&
                                                     ReactDOM.createPortal(
-                                                        <div className="fixed inset-0 bg-black/15 flex items-center justify-center z-9999">
-                                                            <div className="bg-white p-10 rounded-2xl z-50">
+                                                        <div className="fixed inset-0 bg-black/15 flex items-center justify-center z-9999"
+                                                        >
+                                                            <div className="poll-card p-10 rounded-2xl z-50"
+                                                                style={{
+                                                                    backgroundColor: 'var(--modal-card-bg)',
+                                                                }}>
                                                                 <h3 className="font-bold text-lg ">
                                                                     Are you sure you want to delete this product?
                                                                 </h3>
@@ -406,7 +413,7 @@ export default function Products({
                                     </div>
 
                                     {/* progress bar */}
-                                    <div className="w-full h-3 bg-[#e5e7eb] rounded-full overflow-hidden my-1.5 mb-2.5">
+                                    <div className="w-full h-3 bg-[#e5e7eb] rounded-full overflow-hidden my-1.5 mb-2.5" style={{ backgroundColor: 'var(--progress-track)' }}>
                                         <div
                                             className={`h-full 
                                                     ${totalVotes === 0
@@ -427,17 +434,19 @@ export default function Products({
                                                 e.stopPropagation();
                                                 handleVote(product.id, product.has_voted, e);
                                             }}
+                                            style={{ backgroundColor: 'var(--progress-track-button)' }}
                                             className={`group relative flex w-full rounded-full items-center justify-center 
-                                                gap-2.5 py-4 transition-colors duration-200 text-white 
+                                                gap-2.5 py-4 transition-colors duration-200 text-white hover:shadow-[0_6px_28px_rgba(255,138,91,0.5)]
+                   
                                             ${!product.has_voted
-                                                    ? "bg-linear-to-r from-[#FF8A5B] to-[#FF6A00] cursor-pointer"
+                                                    ? "bg-linear-to-r from-[#ff6a00] to-[#ec4899] cursor-pointer"
                                                     : "bg-[#B0B6CC] "
                                                 }`}
                                         >
                                             {!product.has_voted ? (
-                                                <ThumbsUpIcon size={26} strokeWidth={2} data-testid="vote-button-icon"/>
+                                                <ThumbsUpIcon size={26} strokeWidth={2} data-testid="vote-button-icon" />
                                             ) : (
-                                                <CheckIcon size={24} strokeWidth={2} data-testid="voted-button-icon"/>
+                                                <CheckIcon size={24} strokeWidth={2} data-testid="voted-button-icon" />
                                             )}
                                             <Tooltip
                                                 text={
@@ -469,7 +478,9 @@ export default function Products({
                                                     key={comment.id}
                                                     className="flex gap-2.5 justify-between items-center "
                                                 >
-                                                    <p className="text-[#737791] text-sm p-4  bg-[#E6E9F2]  mt-3 rounded-3xl rounded-bl-none flex-1 flex items-center pl-4">
+                                                    <p className=" poll-card text-sm p-4  bg-[#E6E9F2]  mt-3 rounded-3xl rounded-bl-none flex-1 flex items-center pl-4" style={{
+                                                        backgroundColor: 'var(--card-bg)',
+                                                    }}>
                                                         <img
                                                             src={`https://api.dicebear.com/7.x/bottts/svg?seed=${comment.user_id}`}
                                                             alt="avatar"
@@ -488,7 +499,7 @@ export default function Products({
                                                     {user && user.id === comment.user_id && (
                                                         <TrashSimpleIcon
                                                             size={14}
-                                                        
+
                                                             strokeWidth={1.5}
                                                             onClick={() => setOpenComment(true)}
                                                             className="cursor-pointer text-[#737791] hover:text-[#F25E0D] items-center"
@@ -498,7 +509,10 @@ export default function Products({
                                                         {openComment &&
                                                             ReactDOM.createPortal(
                                                                 <div className="fixed inset-0 bg-black/15 flex items-center justify-center z-9999">
-                                                                    <div className="bg-white p-10 rounded-2xl z-50">
+                                                                    <div className="poll-card p-10 rounded-2xl z-50"
+                                                                        style={{
+                                                                            backgroundColor: 'var(--modal-card-bg)',
+                                                                        }}>
                                                                         <h3 className="font-bold text-lg ">
                                                                             Are you sure you want to delete this
                                                                             comment?
@@ -548,12 +562,15 @@ export default function Products({
                                                             [product.id]: e.target.value,
                                                         }))
                                                     }
-                                                    className="p-2 rounded-xl border border-[#ddd] outline-none bg-white mt-1.5
+                                                    className="p-2 rounded-xl border border-[#6c6666] outline-none poll-card mt-1.5
                                                     text-[#737791] focus:border-[#F25E0D] focus:shadow-[0_0_0_3px_rgba(108,99,255,0.15)] 
                                                     font-[inherit] transition-all duration-200"
+                                                    style={{
+                                                        backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)'
+                                                    }}
                                                 />
                                                 <button
-                                                data-testid="add-comment"
+                                                    data-testid="add-comment"
                                                     type="submit"
                                                     className="self-end px-4 py-2 rounded-full border-none bg-[#F25E0D]
                                                      text-white cursor-pointer hover:bg-black transition-colors duration-200"

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import type { Poll } from "../utils/types";
-import { authFetch } from "../utils/auth";
+import { authFetch } from "../utils/api/auth";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API_URL } from "../config";
-import Modal from "../components/Modal";
-import CreateCard from "../components/CreateCard";
+import Modal from "../components/ui/Modal";
+import CreateCard from "../components/ui/CreateCard";
 import { CalendarBlankIcon, CalendarCheckIcon, CalendarIcon, CaretDownIcon, CaretUpIcon, CheckIcon, DotIcon, LinkIcon, ShareFatIcon, ShoppingCartSimpleIcon, XIcon } from "@phosphor-icons/react";
 import { daysLeft, getTimeLeftPercentage } from "../utils/date";
 import { motion } from "framer-motion";
@@ -98,10 +98,10 @@ const Polls: React.FC = () => {
           ease: [0.16, 1, 0.3, 1],
         }}>
         <div className="flex flex-col items-center mx-auto">
-          <h1 className="px-5 text-[1.5em] leading-[1.1] font-black mb-2 mt-16">
+          <h1 className="px-5 text-[1.5em] leading-[1.1] font-black mb-2 mt-16 " style={{ color: 'var(--text-heading)' }}>
             Polls & Picks
           </h1>
-          <span className="m-2 text-[#737791] font-serif italic">
+          <span className="m-2 text-[#737791] font-serif italic" style={{ color: 'var(--text-primary)' }}>
             View, manage, and collaborate on your polls.
           </span>
         </div>
@@ -115,9 +115,14 @@ const Polls: React.FC = () => {
           <div
             className={`group relative inline-flex  rounded-3xl px-6 py-3 ml-4 mt-6 cursor-pointer items-center gap-2 text-[14px]
             ${openSharedPolls
-                ? "bg-linear-to-r from-[#FF8A5B] to-[#FF6A00] text-white shadow-lg shadow-orange-500/30 scale-105"
-                : "bg-white text-gray-700 border-2 border-gray-200 hover:border-orange-400 hover:text-orange-500 hover:shadow-md"
+                ? "bg-linear-to-r from-[#ff6a00] to-[#ec4899] text-white shadow-lg shadow-orange-500/30 scale-105"
+                : "border-2 hover:border-orange-400 hover:text-orange-500 hover:shadow-md"
               }`}
+            style={!openSharedPolls ? {
+              backgroundColor: 'var(--toggle-inactive-bg)',
+              borderColor: 'var(--toggle-inactive-border)',
+              color: 'var(--toggle-inactive-text)',
+            } : {}}
             onClick={() => setOpenSharedPollls((prev) => !prev)}
           >
             Shared With Me{" "}
@@ -142,9 +147,12 @@ const Polls: React.FC = () => {
               <div
                 key={poll.uuid}
                 id={poll.uuid}
-                className="box-content bg-white/50 backdrop-blur-md rounded-[30px] p-6 cursor-pointer 
+                className="box-content poll-card backdrop-blur-md rounded-[30px] p-6 cursor-pointer 
               flex flex-col shadow-[0_-1px_25px_rgba(0,0,0,0.1)] transition-all duration-250 ease-in-out h-full 
-              hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)] hover:bg-white/80"
+              hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
+                style={{
+                  backgroundColor: 'var(--card-bg)',
+                }}
                 onClick={(e) => {
                   navigate(`/polls/${poll.uuid}`);
                   e.preventDefault();
@@ -155,7 +163,8 @@ const Polls: React.FC = () => {
                   {/* active-button */}
                   <div className="flex items-center justify-between mr-3">
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full -rotate-6"
-                      style={{ backgroundColor: poll.active ? '#C8E6C9' : '#FFCDD2' }}>
+                      style={{ backgroundColor: poll.active ? 'var(--pill-active-bg)' : 'var(--pill-inactive-bg)' }}
+                    >
 
                       <div className="relative w-1.5 h-1.5">
                         {poll.active && (
@@ -166,7 +175,7 @@ const Polls: React.FC = () => {
                           style={{ backgroundColor: poll.active ? '#4CAF50' : '#F44336' }} />
                       </div>
 
-                      <span className="text-[10px] font-bold text-gray-700 tracking-[0.5px]">
+                      <span className="text-[10px] font-bold text-gray-700 tracking-[0.5px]" style={{ color: 'var(--pill-text)' }}>
                         {poll.active ? "Active" : "Closed"}
                       </span>
                     </div>
@@ -188,10 +197,10 @@ const Polls: React.FC = () => {
                   isOpen={share === poll.uuid}
                   onClose={() => setShare(null)}
                 >
-                  <div className="flex justify-between">
+                  <div className="flex justify-between" >
                     <h3 className="font-bold text-lg mb-4.5 text-center ">
                       Your event link for{" "}
-                      <span className="text-[#F25E0D]">{poll.title}</span> is
+                      <span className="text-[#F25E0D]" >{poll.title}</span> is
                       ready to share! 🎉
                     </h3>
                     <XIcon
@@ -245,6 +254,7 @@ const Polls: React.FC = () => {
                     " text-black "
                     :
                     "text-[#B0B6CC]"}`}
+                  style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
                 >
                   {poll.title}
                 </h3>
@@ -255,6 +265,7 @@ const Polls: React.FC = () => {
                     " text-black "
                     :
                     "text-[#B0B6CC]"}`}
+                  style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
                 >
                   Budget: ${poll.budget}
                 </p>
@@ -266,31 +277,54 @@ const Polls: React.FC = () => {
                       "text-[#737791]"
                       :
                       "text-[#B0B6CC]"}`}
+                    style={{ color: poll.active ? 'var(--text-primary)' : 'var(--text-inactive)' }}
                   >
                     {poll.description}
                   </p>
                 )}
 
                 {/* progress bar */}
-                <div className="mt-auto w-full h-1 bg-[#e5e7eb] rounded-full overflow-hidden my-1.5 mb-1">
+                <div className="mt-auto w-full h-1 bg-[#e5e7eb] rounded-full overflow-hidden my-1.5 mb-1" style={{ backgroundColor: 'var(--progress-track)' }}>
                   <div
-                    className="h-full bg-linear-to-br from-[#ff6a00] to-[#ec4899] transition-[width] duration-300"
-                    style={{
-                      width: `${getTimeLeftPercentage(poll)}%`,
-                    }}
+                    className={`h-full transition-[width] duration-300
+                      ${poll.active ?
+                        "bg-linear-to-br from-[#ff6a00] to-[#ec4899]"
+                        :
+                        "text-[#B0B6CC]"}`}
+                    style={{ color: poll.active ? 'var(--text-primary)' : 'var(--text-inactive)', width: `${getTimeLeftPercentage(poll)}%` }}
                   />
                 </div>
 
                 {/* total products */}
-                <div className="flex items-center mt-1 mb-5 gap-2 ml-0 text-[12px] text-[#EA7317] justify-between">
-                  <div className="flex items-center gap-2">
-                    <ShoppingCartSimpleIcon size={14} strokeWidth={1.5} weight="fill" />{" "}
-                    {poll.total_products}{" "}
-                    {poll.total_products === 1 ? "item" : "items"}
+                <div className="flex items-center mt-1 mb-5 gap-2 ml-0 text-[12px] text-[#EA7317] justify-between" style={{ color: 'var(--accent-orange)' }}>
+                  <div className="flex items-center gap-2" >
+                    {poll.active ?
+                      <>
+                        <ShoppingCartSimpleIcon size={14} strokeWidth={1.5} weight="fill" />{" "}
+                        {poll.total_products}{" "}
+                        {poll.total_products === 1 ? "item" : "items"}
+                      </>
+                      :
+                      <>
+                        <ShoppingCartSimpleIcon size={14} strokeWidth={1.5} weight="fill" className="text-[#B0B6CC]" style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
+                        />{" "}
+                        <span className="text-[#B0B6CC]" style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
+                        >{poll.total_products}{" "}
+                          {poll.total_products === 1 ? "item" : "items"}</span>
+                      </>}
                   </div>
 
                   <span>
-                    <DotIcon className="mx-1" color="#F25E0D" size={20} weight="bold" />
+                    <DotIcon
+                      size={20}
+                      weight="bold"
+                      className="mx-1"
+                      style={{
+                        color: daysLeft(poll) > 1
+                          ? 'var(--accent-orange)'
+                          : poll.active ? 'var(--text-active)' : 'var(--text-inactive)'
+                      }}
+                    />
                   </span>
 
                   <div className="flex items-center gap-2">
@@ -304,10 +338,12 @@ const Polls: React.FC = () => {
                           </span>
                         </>
                       ) : (
-                        <div className="text-[#B0B6CC]">
-                          <CalendarCheckIcon size={14} strokeWidth={1.5} weight="fill" />
-                          <span>Finished</span>
-                        </div>
+                        <>
+                          <CalendarCheckIcon size={14} strokeWidth={1.5} weight="fill" className="text-[#B0B6CC]" style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
+                          />
+                          <span className="text-[#B0B6CC]" style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
+                          >Finished</span>
+                        </>
                       )
                     ) : (
                       <>
@@ -322,14 +358,15 @@ const Polls: React.FC = () => {
                 <button
                   className="flex items-center text-[#ba4cea] text-[0.7rem] px-5 py-2.5 bg-[#efd6ff] rounded-full
                    border-none mb-3 justify-center "
+                  style={{ color: 'var(--accent-purple)', backgroundColor: 'var(--accent-purple-bg)' }}
+
                 >
                   <div className="flex items-center gap-2">
-                    {/* <UserCircleIcon size={14} strokeWidth={2.0} weight="fill" />  */}
-                       <img
-                                src={`https://api.dicebear.com/7.x/bottts/svg?seed=${poll.user_id}`}
-                                alt="avatar"
-                                className="w-5"
-                            />
+                    <img
+                      src={`https://api.dicebear.com/7.x/bottts/svg?seed=${poll.user_id}`}
+                      alt="avatar"
+                      className="w-5"
+                    />
                     created by {poll.created_by}
                   </div>
                 </button>
@@ -347,9 +384,16 @@ const Polls: React.FC = () => {
         <div
           className={`group relative inline-flex  rounded-3xl px-6 py-3 ml-4 mt-14 cursor-pointer items-center gap-2 text-[14px]
             ${openPolls
-              ? "bg-linear-to-r from-[#FF8A5B] to-[#FF6A00] text-white shadow-lg shadow-orange-500/30 scale-105"
-              : "bg-white text-gray-700 border-2 border-gray-200 hover:border-orange-400 hover:text-orange-500 hover:shadow-md"
+              ? "bg-linear-to-r from-[#ff6a00] to-[#ec4899] text-white shadow-lg shadow-orange-500/30 scale-105"
+
+              : "border-2 hover:border-orange-400 hover:text-orange-500 hover:shadow-md"
             }`}
+
+          style={!openPolls ? {
+            backgroundColor: 'var(--toggle-inactive-bg)',
+            borderColor: 'var(--toggle-inactive-border)',
+            color: 'var(--toggle-inactive-text)',
+          } : {}}
           onClick={() => setOpenPollls((prev) => !prev)}
         >
           My Polls{" "}
@@ -359,7 +403,7 @@ const Polls: React.FC = () => {
             <CaretDownIcon size={20} strokeWidth={2} weight="bold" />
           )}
         </div>
-        {/* )} */}
+   
       </motion.div>
       {/* wrap-poll */}
       <motion.div className="mx-auto flex px-4 justify-center"
@@ -374,9 +418,12 @@ const Polls: React.FC = () => {
               <div
                 key={poll.uuid}
                 id={poll.uuid}
-                className="box-content bg-white/50 backdrop-blur-md rounded-[30px] p-6 cursor-pointer 
+                className="box-content poll-card backdrop-blur-md rounded-[30px] p-6 cursor-pointer 
               flex flex-col shadow-[0_-1px_25px_rgba(0,0,0,0.1)] transition-all duration-250 ease-in-out h-full 
-              hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)] hover:bg-white/80"
+              hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
+                style={{
+                  backgroundColor: 'var(--card-bg)',
+                }}
                 onClick={(e) => {
                   navigate(`/polls/${poll.uuid}`);
                   e.preventDefault();
@@ -387,7 +434,8 @@ const Polls: React.FC = () => {
                   {/* active-button */}
                   <div className="flex items-center justify-between mr-3">
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full -rotate-6"
-                      style={{ backgroundColor: poll.active ? '#C8E6C9' : '#FFCDD2' }}>
+                      style={{ backgroundColor: poll.active ? 'var(--pill-active-bg)' : 'var(--pill-inactive-bg)' }}
+                    >
 
                       <div className="relative w-1.5 h-1.5">
                         {poll.active && (
@@ -398,7 +446,7 @@ const Polls: React.FC = () => {
                           style={{ backgroundColor: poll.active ? '#4CAF50' : '#F44336' }} />
                       </div>
 
-                      <span className="text-[10px] font-bold text-gray-700 ">
+                      <span className="text-[10px] font-bold text-gray-700 " style={{ color: 'var(--pill-text)' }}>
                         {poll.active ? "Active" : "Closed"}
                       </span>
                     </div>
@@ -407,7 +455,6 @@ const Polls: React.FC = () => {
                   <ShareFatIcon
                     size={18}
                     strokeWidth={1.5}
-                    // weight="fill"
                     className="hover:text-[#F25E0D]"
                     onClick={(e) => {
                       setShare(poll.uuid);
@@ -479,6 +526,7 @@ const Polls: React.FC = () => {
                     " text-black "
                     :
                     "text-[#B0B6CC]"}`}
+                  style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
                 >
                   {poll.title}
                 </h3>
@@ -489,6 +537,7 @@ const Polls: React.FC = () => {
                     " text-black "
                     :
                     "text-[#B0B6CC]"}`}
+                  style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
                 >
                   Budget: ${poll.budget}
                 </p>
@@ -500,24 +549,27 @@ const Polls: React.FC = () => {
                       "text-[#737791]"
                       :
                       "text-[#B0B6CC]"}`}
+                    style={{ color: poll.active ? 'var(--text-primary)' : 'var(--text-inactive)' }}
                   >
                     {poll.description}
                   </p>
                 )}
 
                 {/* progress bar */}
-                <div className="mt-auto w-full h-1 bg-[#e5e7eb] rounded-full overflow-hidden my-1.5 mb-1">
+                <div className="mt-auto w-full h-1 bg-[#e5e7eb] rounded-full overflow-hidden my-1.5 mb-1" style={{ backgroundColor: 'var(--progress-track)' }}>
                   <div
-                    className="h-full bg-linear-to-br from-[#ff6a00] to-[#ec4899] transition-[width] duration-300"
-                    style={{
-                      width: `${getTimeLeftPercentage(poll)}%`,
-                    }}
+                    className={`h-full transition-[width] duration-300
+                      ${poll.active ?
+                        "bg-linear-to-br from-[#ff6a00] to-[#ec4899]"
+                        :
+                        "text-[#B0B6CC]"}`}
+                    style={{ color: poll.active ? 'var(--text-primary)' : 'var(--text-inactive)', width: `${getTimeLeftPercentage(poll)}%` }}
                   />
                 </div>
 
                 {/* total products */}
-                <div className="flex items-center mt-1 mb-5 gap-2 ml-0 text-[12px] text-[#EA7317] justify-between">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center mt-1 mb-5 gap-2 ml-0 text-[12px] text-[#EA7317] justify-between" style={{ color: 'var(--accent-orange)' }}>
+                  <div className="flex items-center gap-2" >
                     {poll.active ?
                       <>
                         <ShoppingCartSimpleIcon size={14} strokeWidth={1.5} weight="fill" />{" "}
@@ -526,19 +578,25 @@ const Polls: React.FC = () => {
                       </>
                       :
                       <>
-                        <ShoppingCartSimpleIcon size={14} strokeWidth={1.5} weight="fill" className="text-[#B0B6CC]" />{" "}
-                        <span className="text-[#B0B6CC]">{poll.total_products}{" "}
+                        <ShoppingCartSimpleIcon size={14} strokeWidth={1.5} weight="fill" className="text-[#B0B6CC]" style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
+                        />{" "}
+                        <span className="text-[#B0B6CC]" style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
+                        >{poll.total_products}{" "}
                           {poll.total_products === 1 ? "item" : "items"}</span>
                       </>}
                   </div>
 
                   <span>
-                    <DotIcon size={20} weight="bold" className={`mx-1 
-                    ${daysLeft(poll) > 1 ?
-                        "text-[#F25E0D]"
-                        :
-                        "text-[#B0B6CC]"}
-                    `} />
+                    <DotIcon
+                      size={20}
+                      weight="bold"
+                      className="mx-1"
+                      style={{
+                        color: daysLeft(poll) > 1
+                          ? 'var(--accent-orange)'
+                          : poll.active ? 'var(--text-active)' : 'var(--text-inactive)'
+                      }}
+                    />
                   </span>
 
                   <div className="flex items-center gap-2">
@@ -553,8 +611,10 @@ const Polls: React.FC = () => {
                         </>
                       ) : (
                         <>
-                          <CalendarCheckIcon size={14} strokeWidth={1.5} weight="fill" className="text-[#B0B6CC]" />
-                          <span className="text-[#B0B6CC]">Finished</span>
+                          <CalendarCheckIcon size={14} strokeWidth={1.5} weight="fill" className="text-[#B0B6CC]" style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
+                          />
+                          <span className="text-[#B0B6CC]" style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
+                          >Finished</span>
                         </>
                       )
                     ) : (

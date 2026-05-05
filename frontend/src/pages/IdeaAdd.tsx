@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authFetch } from "../utils/auth";
+import { authFetch } from "../utils/api/auth";
 import toast from "react-hot-toast";
 import { API_URL } from "../config";
 import { colors } from "../utils/colors";

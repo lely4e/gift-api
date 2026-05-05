@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { API_URL } from "../config";
-import { authFetch } from "../utils/auth";
-import StarRating from "./Stars";
+import { API_URL } from "../../../config";
+import { authFetch } from "../../../utils/api/auth";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { productSchema, type ProductFormErrors } from "../schemas/productSchema";
+import { productSchema, type ProductFormErrors } from "../../../schemas/productSchema";
+import StarRating from "../../ui/Stars";
 
 interface ProductProps {
     getProducts?: () => Promise<void>;
@@ -105,24 +105,27 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                         <form onSubmit={handleSubmit}>
                             <div
                                 className="relative 
-                                bg-white/[0.841]
+                            poll-card
                                 max-w-200 backdrop-blur-[10px] rounded-[30px] p-6 
                                 flex shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)] 
                                 transition-all duration-250 ease-in-out gap-3 
                                 hover:-translate-y-1 
                                 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
+                                style={{
+                                    backgroundColor: 'var(--card-bg)',
+                                }}
                             >
                                 {/* product-image-container */}
                                 <div className="w-50 max-h-57.5 aspect-square rounded-xl overflow-hidden shrink-0 hover:text-[#0096FF] ">
                                     <div
-                                        className="h-full  bg-white/[0.439] backdrop-blur-[10px] border-2 border-dashed 
+                                        className="h-full   backdrop-blur-[10px] border-2 border-dashed 
                                             border-[#cbd5f5] rounded-[30px] p-6 flex flex-col items-center justify-center cursor-pointer
                                             transition-all duration-250 hover:border-[#F25E0D] hover:bg-[rgba(246,143,92,0.05)]"
                                     >
                                         {/* create-icon */}
                                         <div className="w-14 h-14 flex items-center justify-center mb-4">
                                             <svg
-                                                className="w-7 h-7 text-[#9496b8]"
+                                                className="w-7 h-7 "
                                                 viewBox="0 0 24 24"
                                                 fill="none"
                                                 stroke="currentColor"
@@ -141,8 +144,9 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                                             id="image url"
                                             type="text"
                                             name="image"
-                                            className={`text-black mb-1 text-sm text-center h-8
+                                            className={`mb-1 text-sm text-center h-8
                                               ${errors.image ? "border-b border-red-400" : "border-[#737791]"}`}
+                                            style={{ color: 'var(--text-primary)' }}
                                             placeholder="Add Image URL"
                                             value={productData.image}
                                             onChange={(e) => {
@@ -163,11 +167,11 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                                 <div className="flex flex-col pl-5 text-left flex-1">
                                     {/* product-title-price */}
                                     <div className="flex justify-between items-start gap-5">
-                                        <div className="flex text-sm text-[#555] gap-2.5 items-center">
-                                            <div className="flex items-center text-[#737791] opacity-40">
+                                        <div className="flex text-sm gap-2.5 items-center" style={{ color: 'var(--text-primary)' }}>
+                                            <div className="flex items-center opacity-40" >
                                                 <StarRating rating={5} />
                                             </div>
-                                            <div className="text-[#737791]">
+                                            <div className="">
                                                 <input
                                                     id="rating"
                                                     type="number"
@@ -178,6 +182,7 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                                                     value={productData.rating}
                                                     onChange={(e) => setProductData({ ...productData, rating: e.target.value })}
                                                     required
+                                                    style={{ color: 'var(--text-primary)' }}
                                                 />
                                                 {errors.rating && (
                                                     <span className="text-red-500 text-xs mt-1 block">{errors.rating}</span>
@@ -185,14 +190,14 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                                             </div>
 
                                         </div>
-                                        <div className="text-2xl font-extrabold text-[#737791] mb-2 flex flex-col items-end"> {/* 👈 add flex-col */}
+                                        <div className="text-2xl font-extrabold mb-2 flex flex-col items-end" style={{ color: 'var(--text-primary)' }}>
                                             <div className="flex">
                                                 <span className="opacity-40">$</span>
                                                 <input
                                                     id="price"
                                                     type="number"
                                                     name="price"
-                                                    className={`text-black 
+                                                    className={`
                                                     ${errors.price ? "border-b border-red-400" : "border-[#737791]"}`}
                                                     placeholder="32.99"
                                                     value={productData.price}
@@ -200,6 +205,7 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                                                     style={{
                                                         width: `${Math.max(5, productData.price.length)}ch`,
                                                         minWidth: "5ch",
+                                                        color: 'var(--text-primary)'
                                                     }}
                                                     required
                                                 />
@@ -211,12 +217,12 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                                     </div>
 
                                     {/* product-title */}
-                                    <div className="group relative font-semibold text-[0.9rem] leading-[1.4] hover:text-[#0096FF] hover:cursor-pointer">
+                                    <div className="group relative font-semibold text-[0.9rem] leading-[1.4] hover:text-[#0096FF] hover:cursor-pointer" style={{ color: 'var(--text-primary)' }}>
                                         <input
                                             id="title"
                                             type="text"
                                             name="title"
-                                            className={`text-black w-full h-8 
+                                            className={`w-full h-8 
                                              ${errors.title ? "border-b border-red-400" : "border-[#737791]"}`}
                                             placeholder="Product Title Here"
                                             value={productData.title}
@@ -236,13 +242,14 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                                         )}
                                     </div>
                                     {/* product-link */}
-                                    <div className="group relative font-semibold text-[0.9rem] leading-[1.4] hover:text-[#0096FF] hover:cursor-pointer ">
+                                    <div className="group relative font-semibold text-[0.9rem] leading-[1.4] hover:text-[#0096FF] hover:cursor-pointer " style={{ color: 'var(--text-primary)' }}>
                                         <input
                                             id="url"
                                             type="text"
                                             name="url"
-                                            className={`text-black mt-3 w-full h-8
+                                            className={`mt-3 w-full h-8
                                              ${errors.link ? "border-b border-red-400" : "border-[#737791]"}`}
+                                            style={{ color: 'var(--text-primary)' }}
                                             placeholder="Product URL Here"
                                             value={productData.link}
                                             onChange={(e) => {

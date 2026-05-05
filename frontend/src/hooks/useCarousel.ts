@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import type { Layout } from "../components/Search";
+import type { Layout } from "../components/features/search/Search";
 import WheelGesturesPlugin from "embla-carousel-wheel-gestures";
 
 
@@ -26,16 +26,21 @@ export function useCarousel({
     );
 
     useEffect(() => {
+        let timeout: NodeJS.Timeout;
+
         const update = () => {
-            if (window.innerWidth < 480) {
-                setSlidesToShow(1);
-            } else if (window.innerWidth < 768) {
-                setSlidesToShow(layout === "poll" ? 2 : 1);
-            } else if (window.innerWidth < 1024) {
-                setSlidesToShow(layout === "poll" ? 3 : 1);
-            } else {
-                setSlidesToShow(layout === "poll" ? 4 : 2);
-            }
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                if (window.innerWidth < 480) {
+                    setSlidesToShow(1);
+                } else if (window.innerWidth < 768) {
+                    setSlidesToShow(layout === "poll" ? 2 : 1);
+                } else if (window.innerWidth < 1024) {
+                    setSlidesToShow(layout === "poll" ? 3 : 1);
+                } else {
+                    setSlidesToShow(layout === "poll" ? 4 : 2);
+                }
+            }, 100);
         };
 
         update();
@@ -79,7 +84,7 @@ export function useCarousel({
     // Re-init Embla when results change so it picks up new slides
     useEffect(() => {
         emblaApi?.reInit();
-    }, [searchResults, emblaApi]);
+    }, [searchResults, slidesToShow, emblaApi]);
 
     // Sentinel element for IntersectionObserver-based infinite loading
     const sentinelRef = useRef<HTMLDivElement>(null);
@@ -98,7 +103,7 @@ export function useCarousel({
 
         observer.observe(sentinelRef.current);
         return () => observer.disconnect();
-        
+
     }, [showProducts, hasMore, loadingMore, loadMore]);
 
     return {

@@ -88,15 +88,20 @@ export default function Signup() {
             transition-transform duration-250 ease-in-out
             hover:translate-y-1
             hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
+          style={{
+            backgroundColor: 'var(--card-bg)',
+          }}
         >
           <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center gap-1.25 pb-0"
           >
-            <h1 className="text-center mb-3 mt-5 text-[#737791] font-black text-3xl">
+            <h1 className="text-center mb-3 mt-5 text-[#737791] font-black text-3xl"
+              style={{ color: 'var(--text-primary)' }}>
               Create your account
             </h1>
-            <p className="flex flex-col items-center text-[12px] text-[#737791] mb-5">
+            <p className="flex flex-col items-center text-[12px] text-[#737791] mb-5"
+              style={{ color: 'var(--text-primary)' }}>
               Get started in seconds
             </p>
 
@@ -164,13 +169,15 @@ export default function Signup() {
               <button
                 id="submitButton"
                 type="submit"
-                className="justify-center items-center gap-3 mx-auto w-75 h-11 bg-linear-to-r from-[#FF8A5B] to-[#FF6A00] rounded-full text-white cursor-pointer"
+                className="justify-center items-center gap-3 mx-auto w-75 h-11 bg-linear-to-r from-[#ff6a00] to-[#ec4899] hover:shadow-[0_6px_28px_rgba(255,138,91,0.5)] duration-200 rounded-full text-white cursor-pointer"
               >
                 Signup
               </button>
-              <p className="flex flex-col items-center text-[12px] text-[#737791] pt-7.5">
+              <p className="flex flex-col items-center text-[12px] text-[#737791] pt-7.5"
+                style={{ color: 'var(--text-primary)' }}>
                 Already have an account?{" "}
-                <Link to="/login" className="text-[#F25E0D]">
+                <Link to="/login" className="text-[#F25E0D]"
+                  style={{ color: 'var(--accent-orange)' }}>
                   Sign in
                 </Link>
               </p>

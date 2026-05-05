@@ -1,5 +1,5 @@
 import React from "react";
-import type { AgeSliderProps } from "../utils/types";
+import type { AgeSliderProps } from "../../utils/types";
 
 const AgeSlider: React.FC<AgeSliderProps> = ({ value, onChange }) => {
 

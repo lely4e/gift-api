@@ -5,14 +5,14 @@ type CreateCardProps = {
   text: string;
 };
 
-export default function CreateCard({address, text}: CreateCardProps) {
-    const navigate = useNavigate();
+export default function CreateCard({ address, text }: CreateCardProps) {
+  const navigate = useNavigate();
   return (
-    
+
     <>
       {/* create-card */}
       <div
-        className="h-full box-content bg-white/[0.439] backdrop-blur-[10px] border-2 border-dashed 
+        className="h-full box-content poll-card backdrop-blur-[10px] border-2 border-dashed 
         border-[#cbd5f5] rounded-[30px] p-6 flex flex-col items-center justify-center cursor-pointer
         transition-all duration-250 hover:border-[#F25E0D] hover:bg-[rgba(246,143,92,0.05)]"
         onClick={() => navigate(address)}
@@ -20,7 +20,8 @@ export default function CreateCard({address, text}: CreateCardProps) {
         {/* create-icon */}
         <div className="w-14 h-14 flex items-center justify-center mb-4">
           <svg
-            className="w-7 h-7 text-[#9496b8]"
+            className="w-7 h-7 "
+            style={{ color: 'var(--text-primary)' }}
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -35,7 +36,7 @@ export default function CreateCard({address, text}: CreateCardProps) {
         </div>
 
         {/* create-title */}
-        <p className="text-slate-600 mb-1 text-sm">{text}</p>
+        <p className="text-slate-600 mb-1 text-sm" style={{ color: 'var(--text-primary)' }}>{text}</p>
       </div>
     </>
   );

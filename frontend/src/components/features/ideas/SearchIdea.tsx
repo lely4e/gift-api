@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { authFetch } from "../utils/auth";
-import type { SearchProps, ProductSearch } from "../utils/types";
+import { authFetch } from "../../../utils/api/auth";
+import type { SearchProps, ProductSearch } from "../../../utils/types";
 import { useParams } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import toast from "react-hot-toast";
-import StarRating from "./Stars";
-import { API_URL } from "../config";
-import { useCarousel } from "../hooks/useCarousel";
+import { API_URL } from "../../../config";
+import { useCarousel } from "../../../hooks/useCarousel";
 import { ArrowLeftIcon, ArrowRightIcon, CheckIcon, PlusIcon } from "@phosphor-icons/react";
+import StarRating from "../../ui/Stars";
 
 type Layout = "poll" | "gift";
 
@@ -230,22 +230,23 @@ export default function SearchIdea({
                                 >
 
                                     <div
-                                        className="flex flex-col gap-4
-                                        bg-white rounded-[30px] p-6
-                                        shadow-md transition
-                                        hover:-translate-y-1 hover:shadow-xl
-                                        max-w-62.5 w-full"
+                                        className="flex flex-col gap-4 poll-card rounded-[30px] p-6 shadow-md transition hover:-translate-y-1 hover:shadow-xl"
+                                        style={{
+                                            backgroundColor: 'var(--card-bg)',
+                                        }}
                                     >
                                         {/* img */}
                                         <div
-                                            className="h-32.5 flex items-center justify-center hover:text-[#0096FF] hover:cursor-pointer"
+                                            className="h-40 flex items-center justify-center hover:text-[#0096FF] hover:cursor-pointer"
                                             onClick={() => window.open(product.link, "_blank")}
                                         >
-                                            <img
-                                                src={product.image}
-                                                alt={product.title}
-                                                className="max-h-full object-contain"
-                                            />
+                                            <div className="w-full p-3 h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden">
+                                                <img
+                                                    src={product.image}
+                                                    alt={product.title}
+                                                    className="max-h-full object-contain"
+                                                />
+                                            </div>
                                         </div>
 
                                         {/* Content */}
@@ -254,22 +255,23 @@ export default function SearchIdea({
                                             <div className="flex justify-between items-center">
                                                 <div className="flex items-center">
                                                     <StarRating rating={product.rating} color="#F25E0D" />
-                                                    <span className="text-sm ml-0 text-[#737791] font-semibold">
+                                                    <span className="text-sm ml-0 text-[#737791] font-semibold" style={{ color: 'var(--text-primary)' }}>
                                                         {product.rating}
                                                     </span>
                                                 </div>
 
-                                                <span className="text-lg font-extrabold text-[#737791]">
+                                                <span className="text-lg font-extrabold text-[#737791]" style={{ color: 'var(--text-primary)' }}>
                                                     ${product.price}
                                                 </span>
                                             </div>
 
                                             {/* Title */}
                                             <div
-                                                className="text-sm font-semibold leading-snug line-clamp-2 text-left hover:text-[#0096FF] hover:cursor-pointer"
+                                                className="text-sm font-semibold text-[#737791] leading-snug line-clamp-2 text-left hover:text-[#0096FF] hover:cursor-pointer"
                                                 onClick={() => {
-                                                    window.open(product.link, "_blank");
+                                                    window.open(product.link, "_blank")
                                                 }}
+                                                style={{ color: 'var(--text-primary)' }}
                                             >
                                                 {truncate(product.title, 100)}
                                                 {/* <Tooltip text={product.title} /> */}

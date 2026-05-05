@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { authFetch } from "../utils/auth";
+import { authFetch } from "../utils/api/auth";
 import { API_URL } from "../config";
 import toast from "react-hot-toast";
 import type { Product } from "../utils/types";

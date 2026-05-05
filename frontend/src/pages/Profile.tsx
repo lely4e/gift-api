@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { updateUsername } from "../utils/updateUser";
 import { useUser } from "../context/UserContext";
 import toast from "react-hot-toast";
 import { PencilSimpleLineIcon, SignOutIcon } from "@phosphor-icons/react";
-import { Tooltip } from "../components/Tooltip";
+import { Tooltip } from "../components/ui/Tooltip";
 import { motion } from "framer-motion";
+import { updateUsername } from "../utils/api/updateUser";
 
 export default function Profile() {
   // user from Context
@@ -69,6 +69,9 @@ export default function Profile() {
     hover:-translate-y-1
     hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]
   "
+            style={{
+              backgroundColor: 'var(--card-bg)',
+            }}
           >
             <div className="grid items-center content-center rounded-full">
               <img
@@ -82,7 +85,7 @@ export default function Profile() {
               {!isEditing ? (
                 <>
                   {/* View Mode */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between" >
                     <div className="flex items-center text-left gap-2.5">
                       <strong>Username:</strong> {user.username}
                     </div>
@@ -100,7 +103,7 @@ export default function Profile() {
 
                   <button
                     onClick={logout}
-                    className="cursor-pointer pt-4 hover:text-[#0072c4]"
+                    className="cursor-pointer pt-4 hover:text-[#F25E0D]"
                   >
                     <SignOutIcon size={20} strokeWidth={1.5} />
                   </button>
@@ -117,6 +120,7 @@ export default function Profile() {
                     id="username"
                     value={newUsername}
                     onChange={(e) => setNewUsername(e.target.value)}
+                    style={{ color: 'var(--text-heading)' }}
                   />
 
                   <div className="flex justify-between gap-2.5 ">

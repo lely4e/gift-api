@@ -1,13 +1,13 @@
 import { useRef, useState, useEffect } from "react";
-import { authFetch } from "../utils/auth";
-import type { GiftIdea } from "../utils/types";
-import type { IdeasProps } from "../utils/types";
+import { authFetch } from "../../../utils/api/auth";
+import type { GiftIdea } from "../../../utils/types";
+import type { IdeasProps } from "../../../utils/types";
 import toast from "react-hot-toast";
-import AgeSlider from "./AgeSlider";
 import SearchIdea from "./SearchIdea";
-import { API_URL } from "../config";
+import { API_URL } from "../../../config";
 import { useParams } from "react-router-dom";
-import { XIcon } from "@phosphor-icons/react";
+import { ArrowDownIcon, XIcon } from "@phosphor-icons/react";
+import AgeSlider from "../../ui/AgeSlider";
 
 export default function Ideas({ getProducts, title, budget }: IdeasProps) {
     const [recipientRelation, setRecipientRelation] = useState("");
@@ -20,9 +20,7 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
     const [openIdeas, setOpenIdeas] = useState(false)
     const { uuid } = useParams<{ uuid: string }>();
 
-    const buttonsStyle =
-        "w-full rounded-3xl border border-[#737791] px-3 py-2 text-[14px] hover:bg-[#F25E0D] hover:text-white hover:border-0 hover:cursor-pointer";
-
+    const buttonsStyle = "w-full text-center px-3 py-2 text-sm rounded-3xl border border-[#737791] hover:bg-[#F25E0D] hover:text-white hover:border-0";
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setLoading(true);
@@ -42,7 +40,7 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
                     }),
                 },
             );
-            const data = await response.json().catch(() => null); 
+            const data = await response.json().catch(() => null);
 
             if (!response.ok) {
                 toast.error(data?.detail || "Failed to get gift ideas");
@@ -81,19 +79,26 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
                 <div>
                     <section className="">
                         {/* add-poll-form */}
-                        <div className="flex justify-center  pb-16 ">
+                        <div className="">
                             <form
                                 onSubmit={handleSubmit}
-                                className=" w-200 flex-col gap-4 bg-white/40 backdrop-blur-md rounded-[30px] p-6 shadow-md"
+                                className="poll-card backdrop-blur-md rounded-[30px] p-14 
+            flex flex-col shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)] 
+            transition-all duration-250 "
+                                style={{
+                                    backgroundColor: 'var(--card-bg)',
+                                }}
                             >
-                                <p className="text-[#737791] text-xl text-center font-bold mb-6">
+                                <p className="text-[#737791] text-xl text-center font-bold mb-6"
+                                    style={{ color: 'var(--text-primary)' }}>
                                     Find the perfect gifts for {title}
                                 </p>
 
-                                <p className="text-[#737791] font-semibold text-center mt-4">
+                                <p className="text-[#737791] font-semibold text-center mt-4"
+                                    style={{ color: 'var(--text-primary)' }}>
                                     Who are they to you?
                                 </p>
-                                <div className="flex gap-2 mt-4">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mt-4">
                                     {[
                                         "Family",
                                         "Friend",
@@ -118,11 +123,12 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
 
                                 <AgeSlider value={recipientAge} onChange={setRecipientAge} />
 
-                                <p className="text-[#737791] font-semibold text-center mt-8">
+                                <p className="text-[#737791] font-semibold text-center mt-8"
+                                    style={{ color: 'var(--text-primary)' }}>
                                     Select hobbies & interests
                                 </p>
 
-                                <div className="flex gap-2 mt-4">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mt-4">
                                     {[
                                         "Sports",
                                         "Music",
@@ -130,23 +136,7 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
                                         "Books",
                                         "Travel",
                                         "Fitness",
-                                        "Fashion"
-                                    ].map((hobbies) => (
-                                        <button
-                                            key={hobbies}
-                                            type="button"
-                                            onClick={() => setRecipientHobbies(hobbies)}
-                                            className={`${buttonsStyle} ${recipientHobbies === hobbies
-                                                ? "bg-[#F25E0D] text-white border-0"
-                                                : ""
-                                                }`}
-                                        >
-                                            {hobbies}
-                                        </button>
-                                    ))}
-                                </div>
-                                <div className="flex gap-2 mt-4">
-                                    {[
+                                        "Fashion",
                                         "Photography",
                                         "Movies",
                                         "Home decor",
@@ -166,14 +156,14 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
                                             {hobbies}
                                         </button>
                                     ))}
-
                                 </div>
 
-                                <p className="text-[#737791] font-semibold text-center mt-8">
+                                <p className="text-[#737791] font-semibold text-center mt-8"
+                                    style={{ color: 'var(--text-primary)' }}>
                                     Select gift type
                                 </p>
 
-                                <div className="flex gap-2 mt-4">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mt-4">
                                     {[
                                         "Unique",
                                         "Practical",
@@ -210,15 +200,23 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
                         {ideas.length > 0 && openIdeas && (
                             <h1
                                 ref={GiftSuggest}
-                                className="text-[1.5em] text-center mb-8 text-[#737791] font-black"
+                                className="text-[1.5em] text-center mb-8 text-[#737791] font-black mt-8"
+                                style={{ color: 'var(--text-primary)' }}
                             >
-                                Gift Ideas
+                                <div className="flex items-center justify-center gap-3">
+                                    Gift Ideas
+                                    <ArrowDownIcon size={32} weight="bold" style={{ color: 'var(--text-primary)' }} />
+                                </div>
                             </h1>
                         )}
 
                         {/* ideas-list */}
                         {openIdeas &&
-                            <div className="max-w-300 mx-auto px-4 bg-[#fefefe] rounded-[30px] ">
+                            <div
+                                className="max-w-300 mx-auto px-4 poll-card rounded-[30px] "
+                                style={{
+                                    backgroundColor: 'var(--card-bg)',
+                                }}>
                                 <div className="flex mr-6 pt-5 justify-end">
                                     <XIcon size={30} strokeWidth={2} weight="bold" onClick={(e) => {
                                         e.preventDefault();
@@ -231,7 +229,7 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
                                     <div key={index}>
                                         {/* card-product-ideas px] */}
                                         <div
-                                            className="flex flex-col gap-3 w-full min-w-75 pl-6 pr-6 "
+                                            className="flex flex-col gap-3 w-full px-6"
                                         >
                                             {/* gift-idea-search-wrapper */}
                                             <div className="w-full block font-bold mb-4">

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { useUser } from "../context/UserContext";
 import { Navigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 export default function ProtectedRoute({ children }: { children: ReactNode }) {
   const { isAuthenticated, loading } = useUser();

@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import Modal from "./Modal";
-import { colors } from "../utils/colors";
-import type { History } from "../utils/types";
+import type { History } from "../../../utils/types";
 import {
     BookmarksIcon,
     CheckIcon,
+    CopyIcon,
     DotIcon,
-    LinkIcon,
     TrashSimpleIcon,
 } from "@phosphor-icons/react";
+import { getCategoryColor } from "../../../utils/colorsCategory";
+import Modal from "../../ui/Modal";
+
 
 interface HistoryPanelProps {
     history: History[];
@@ -17,8 +18,8 @@ interface HistoryPanelProps {
     setOpenHistoryDelete: (id: number | null) => void;
     onDelete: (e: React.MouseEvent, historyId: number) => void;
     onAddToIdeas: (historyId: number) => void;
-    onCopy: (id: number, name: string) => void; 
-    copiedId: number | null; 
+    onCopy: (id: number, name: string) => void;
+    copiedId: number | null;
 }
 
 export default function HistoryPanel({
@@ -32,13 +33,17 @@ export default function HistoryPanel({
 }: HistoryPanelProps) {
     return (
         <div className="flex flex-col items-center">
-            <div className="relative w-200 flex-col bg-white/40 backdrop-blur-md rounded-[30px] p-6 shadow-md space-y-2">
+            <div className="relative w-200 flex-col poll-card backdrop-blur-md rounded-[30px] p-6 shadow-md space-y-2"
+                style={{
+                    backgroundColor: 'var(--card-bg)',
+                }}>
                 {/* AI badge */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8, rotate: -12 }}
                     animate={{ opacity: 1, scale: 1, rotate: -8 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                     className="absolute -top-4 -right-4 inline-flex items-center gap-2 px-5 py-2.5 bg-[#e4c3f9] rounded-full shadow-lg"
+
                 >
                     <motion.div
                         animate={{ scale: [0.7, 1.2, 0.7] }}
@@ -52,7 +57,8 @@ export default function HistoryPanel({
                     Your AI Idea History
                 </h2>
 
-                <div className="flex justify-center items-center text-center text-sm text-[#737791] font-serif italic mb-6">
+                <div className="flex justify-center items-center text-center text-sm  font-serif italic mb-6"
+                    style={{ color: 'var(--text-primary)' }}>
                     <p>AI-generated suggestions, saved over time</p>
                     <DotIcon size={22} weight="bold" />
                     <span>
@@ -64,18 +70,19 @@ export default function HistoryPanel({
                 {history.map((idea) => (
                     <div
                         key={idea.id}
-                        className="flex justify-between items-center text-left text-[14px] border py-2 px-4 rounded-xl border-[#d9dce7] hover:bg-[#d9dce7]"
+                        className="flex justify-between items-center text-left text-[14px]  py-2 px-4 rounded-xl poll-card hover:-translate-y-1 hover:shadow-xl"
+                        style={{
+                            backgroundColor: 'var(--card-bg)',
+                        }}
                     >
                         <div>
-                            <div className="flex gap-2 mb-2 text-[10px] text-gray-700 tracking-widest">
+                            <div className="flex gap-2 mb-2 text-[10px] text-gray-700 tracking-widest" style={{ color: "var(--text-primary)" }}>
                                 {idea.titles.category.map((cat) => {
-                                    const categoryColor =
-                                        colors.find((c) => c.name === cat.toLowerCase())
-                                            ?.backgroundColor ?? "bg-gray-200 border-gray-400";
+                                    const { className: colorClass } = getCategoryColor(cat);
                                     return (
                                         <span
                                             key={cat}
-                                            className={`inline-flex items-center tracking-[0.5px] gap-1.5 px-2.5 py-1 rounded-full border ${categoryColor}`}
+                                            className={`inline-flex items-center tracking-[0.5px] gap-1.5 px-2.5 py-1 rounded-full border ${colorClass}`}
                                         >
                                             {cat.charAt(0).toUpperCase() + cat.slice(1).toLowerCase()}
                                         </span>
@@ -120,12 +127,12 @@ export default function HistoryPanel({
                             {/* Copy */}
                             <div
                                 onClick={() => onCopy(idea.id, idea.titles.name)}
-                                className="py-2 px-2 rounded-full hover:text-[#08b9ff] hover:bg-white cursor-pointer"
+                                className="group py-2 px-2 rounded-full hover:text-[#08b9ff] hover:bg-white cursor-pointer"
                             >
                                 {copiedId === idea.id ? (
                                     <CheckIcon size={16} strokeWidth={2} weight="bold" />
                                 ) : (
-                                    <LinkIcon size={16} strokeWidth={2} />
+                                    <CopyIcon size={16} strokeWidth={2} />
                                 )}
                             </div>
 

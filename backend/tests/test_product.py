@@ -1,11 +1,12 @@
 from tests.conftest import TestSessionLocal
 from fastapi import status
 import pytest
-from app.db.models import Product, Poll
+from app.db.models import Product
 
 
 @pytest.mark.asyncio
 async def test_add_product_success(client, create_poll_and_user):
+    """Test adding a product successfully"""
     user, headers, poll = create_poll_and_user
 
     payload = {
@@ -34,6 +35,7 @@ async def test_add_product_success(client, create_poll_and_user):
 
 @pytest.mark.asyncio
 async def test_add_product_failed_empty_data(client, create_poll_and_user):
+    """Test adding a product with empty data"""
     user, headers, poll = create_poll_and_user
 
     payload = {}
@@ -46,6 +48,7 @@ async def test_add_product_failed_empty_data(client, create_poll_and_user):
 
 @pytest.mark.asyncio
 async def test_add_product_failed_empty_title(client, create_poll_and_user):
+    """Test adding a product with empty title"""
     user, headers, poll = create_poll_and_user
 
     payload = {
@@ -64,6 +67,7 @@ async def test_add_product_failed_empty_title(client, create_poll_and_user):
 
 @pytest.mark.asyncio
 async def test_add_product_failed_empty_price(client, create_poll_and_user):
+    """Test adding a product with empty price"""
     user, headers, poll = create_poll_and_user
 
     payload = {
@@ -82,6 +86,7 @@ async def test_add_product_failed_empty_price(client, create_poll_and_user):
 
 @pytest.mark.asyncio
 async def test_get_product_success(client, add_user_poll_and_product):
+    """Test getting a product successfully"""
     user, product, headers, poll = add_user_poll_and_product
 
     response = await client.get(
@@ -103,6 +108,7 @@ async def test_get_product_success(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_get_products_success(client, add_user_poll_and_product):
+    """Test getting products successfully"""
     user, product, headers, poll = add_user_poll_and_product
 
     response = await client.get(f"/polls/{poll.uuid}/products", headers=headers)
@@ -122,6 +128,7 @@ async def test_get_products_success(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_delete_product_success(client, add_user_poll_and_product):
+    """Test deleting a product successfully"""
     user, product, headers, poll = add_user_poll_and_product
 
     response = await client.delete(

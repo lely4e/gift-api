@@ -6,6 +6,7 @@ from app.db.models import Poll
 
 @pytest.mark.asyncio
 async def test_create_poll_success(client, registered_user):
+    """Test creating a poll successfully"""
     user, headers = registered_user
 
     payload = {
@@ -25,6 +26,7 @@ async def test_create_poll_success(client, registered_user):
 
 @pytest.mark.asyncio
 async def test_create_poll_failed_missing_token(client):
+    """Test creating a poll without authentication"""
     payload = {"title": "Mike Birthday", "budget": 350}
     response = await client.post("/polls", json=payload)
 
@@ -34,6 +36,7 @@ async def test_create_poll_failed_missing_token(client):
 
 @pytest.mark.asyncio
 async def test_create_poll_failed_mising_field(client, registered_user):
+    """Test creating a poll with missing required fields"""
     user, headers = registered_user
 
     payload = {"title": "Mike Birthday"}
@@ -55,6 +58,7 @@ async def test_create_poll_failed_mising_field(client, registered_user):
 
 @pytest.mark.asyncio
 async def test_get_poll_success(client, create_poll_and_user):
+    """Test getting polls successfully"""
     user, headers, poll = create_poll_and_user
     response = await client.get("/polls", headers=headers)
 
@@ -68,6 +72,7 @@ async def test_get_poll_success(client, create_poll_and_user):
 
 @pytest.mark.asyncio
 async def test_get_poll_uuid_success(client, create_poll_and_user):
+    """Test getting a poll by UUID successfully"""
     user, headers, poll = create_poll_and_user
     response = await client.get(f"/polls/{poll.uuid}", headers=headers)
 
@@ -81,6 +86,7 @@ async def test_get_poll_uuid_success(client, create_poll_and_user):
 
 @pytest.mark.asyncio
 async def test_update_poll_uuid_success(client, create_poll_and_user):
+    """Test updating a poll by UUID successfully"""
     user, headers, poll = create_poll_and_user
 
     payload = {"title": "John Home Party", "budget": 560}
@@ -100,6 +106,7 @@ async def test_update_poll_uuid_success(client, create_poll_and_user):
 
 @pytest.mark.asyncio
 async def test_update_poll_uuid_failed_empty_fields(client, create_poll_and_user):
+    """Test updating a poll by UUID with empty fields"""
     user, headers, poll = create_poll_and_user
 
     payload = {"title": "", "budget": 560}
@@ -110,6 +117,7 @@ async def test_update_poll_uuid_failed_empty_fields(client, create_poll_and_user
 
 @pytest.mark.asyncio
 async def test_update_poll_uuid_failed_not_correct_fields(client, create_poll_and_user):
+    """Test updating a poll by UUID with incorrect fields"""
     user, headers, poll = create_poll_and_user
 
     payload = {
@@ -134,6 +142,7 @@ async def test_update_poll_uuid_failed_not_correct_fields(client, create_poll_an
 
 @pytest.mark.asyncio
 async def test_delete_poll_uuid_success(client, create_poll_and_user):
+    """Test deleting a poll by UUID successfully"""
     user, headers, poll = create_poll_and_user
     response = await client.delete(f"/polls/{poll.uuid}", headers=headers)
 

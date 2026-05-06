@@ -6,6 +6,7 @@ from app.db.models import User
 
 @pytest.mark.asyncio
 async def test_get_current_user_success(client, registered_user):
+    """Test getting current user successfully"""
     user, headers = registered_user
     response = await client.get("/me", headers=headers)
 
@@ -17,6 +18,7 @@ async def test_get_current_user_success(client, registered_user):
 
 @pytest.mark.asyncio
 async def test_get_current_user_invalid_token(client):
+    """Test getting current user with invalid token"""
     headers = {"Authorization": f"Bearer Invalid-bearer"}
     response = await client.get("/me", headers=headers)
 
@@ -26,6 +28,7 @@ async def test_get_current_user_invalid_token(client):
 
 @pytest.mark.asyncio
 async def test_get_current_user_missing_token(client):
+    """Test getting current user with missing token"""
     response = await client.get("/me")
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -34,6 +37,7 @@ async def test_get_current_user_missing_token(client):
 
 @pytest.mark.asyncio
 async def test_update_current_user_username_success(client, registered_user):
+    """Test updating current user's username successfully"""
     user, headers = registered_user
 
     payload = {"username": "John Doe"}
@@ -53,6 +57,7 @@ async def test_update_current_user_username_success(client, registered_user):
 
 @pytest.mark.asyncio
 async def test_update_current_user_username_failed(client, registered_user):
+    """Test updating current user's username with missing username"""
     user, headers = registered_user
 
     payload = {}
@@ -76,6 +81,7 @@ async def test_update_current_user_username_failed(client, registered_user):
 
 @pytest.mark.asyncio
 async def test_delete_current_user_success(client, registered_user):
+    """Test deleting current user successfully"""
     user, headers = registered_user
     response = await client.delete("/me", headers=headers)
 
@@ -89,6 +95,7 @@ async def test_delete_current_user_success(client, registered_user):
 
 @pytest.mark.asyncio
 async def test_delete_current_user_failed_user_not_found(client):
+    """Test deleting current user with user not found"""
 
     response = await client.delete("/me")
 

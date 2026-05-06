@@ -6,6 +6,7 @@ from app.db.models import Product, Poll, Comment
 
 @pytest.mark.asyncio
 async def test_add_comment_success(client, add_user_poll_and_product):
+    """Test adding a comment successfully"""
     user, product, headers, poll = add_user_poll_and_product
 
     payload = {
@@ -33,6 +34,7 @@ async def test_add_comment_success(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_add_comment_failed_empty_text(client, add_user_poll_and_product):
+    """Test adding a comment with empty text"""
     user, product, headers, poll = add_user_poll_and_product
 
     payload = {
@@ -63,6 +65,7 @@ async def test_add_comment_failed_empty_text(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_add_comment_failed_no_product(client, add_user_poll_and_product):
+    """Test adding a comment with no product"""
     user, product, headers, poll = add_user_poll_and_product
     product.id += 1
     payload = {
@@ -82,6 +85,7 @@ async def test_add_comment_failed_no_product(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_add_comment_failed_no_user(client, add_user_poll_and_product):
+    """Test adding a comment with no user"""
     _, product, _, poll = add_user_poll_and_product
 
     payload = {
@@ -98,6 +102,7 @@ async def test_add_comment_failed_no_user(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_get_comments_success(client, add_user_poll_product_and_comment):
+    """Test getting comments successfully"""
     product, headers, poll, comment = add_user_poll_product_and_comment
     response = await client.get(
         f"/polls/{poll.uuid}/products/{product.id}/comments", headers=headers
@@ -110,6 +115,7 @@ async def test_get_comments_success(client, add_user_poll_product_and_comment):
 
 @pytest.mark.asyncio
 async def test_get_comment_by_id_success(client, add_user_poll_product_and_comment):
+    """Test getting a comment by ID successfully"""
     product, headers, poll, comment = add_user_poll_product_and_comment
     response = await client.get(
         f"/polls/{poll.uuid}/products/{product.id}/comments/{comment.id}",
@@ -123,6 +129,7 @@ async def test_get_comment_by_id_success(client, add_user_poll_product_and_comme
 
 @pytest.mark.asyncio
 async def test_delete_comment_by_id_success(client, add_user_poll_product_and_comment):
+    """Test deleting a comment by ID successfully"""
     product, headers, poll, comment = add_user_poll_product_and_comment
     response = await client.delete(
         f"/polls/{poll.uuid}/products/{product.id}/comments/{comment.id}",
@@ -136,6 +143,7 @@ async def test_delete_comment_by_id_success(client, add_user_poll_product_and_co
 
 @pytest.mark.asyncio
 async def test_delete_comment_by_id_failed(client, add_user_poll_product_and_comment):
+    """Test deleting a comment by ID with an invalid ID"""
     product, headers, poll, comment = add_user_poll_product_and_comment
     comment.id += 1
     response = await client.delete(
@@ -152,6 +160,7 @@ async def test_delete_comment_by_id_failed(client, add_user_poll_product_and_com
 async def test_delete_comment_by_id_failed_no_product(
     client, add_user_poll_product_and_comment
 ):
+    """Test deleting a comment by ID with an invalid product ID"""
     product, headers, poll, comment = add_user_poll_product_and_comment
     product.id += 1
     response = await client.delete(

@@ -11,12 +11,11 @@ from httpx import AsyncClient, ASGITransport
 from main import app
 from app.db.database import Base, get_db
 import pytest_asyncio
-from app.db.models import User, Poll, Product, Comment, Vote
+from app.db.models import User, Poll, Product, Comment, Vote, Ideas
 from app.core.security import create_access_token
 from faker import Faker
 import random
 from fastapi_pagination import add_pagination
-
 
 TEST_DATABASE_URL = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
 # NuLLPool to avoid connections being reused between tests
@@ -54,9 +53,9 @@ async def client():
         yield ac
 
 
-# Register user
 @pytest_asyncio.fixture
 async def registered_user():
+    """Register a new user"""
     fake = Faker()
 
     db = TestSessionLocal()
@@ -74,9 +73,9 @@ async def registered_user():
     return user, headers
 
 
-# Register user and create poll
 @pytest_asyncio.fixture
 async def create_poll_and_user(registered_user):
+    """Register a new user and create a poll"""
     fake = Faker()
     events = [
         "Mike Birthday",
@@ -103,9 +102,29 @@ async def create_poll_and_user(registered_user):
     return user, headers, poll
 
 
-# Register user, create poll and add product
+@pytest_asyncio.fixture
+async def create_user_and_idea(registered_user):
+    """Register a new user and create an idea"""
+    user, headers = registered_user
+
+    db = TestSessionLocal()
+    idea = Ideas(
+        title={
+            "name": "High-End Gaming Headset",
+            "category": ["Family", "Gaming", "Fun"],
+        },
+        user_id=user.id,
+    )
+    db.add(idea)
+    db.commit()
+    db.refresh(idea)
+    db.close()
+
+    return user, headers, idea
+
 @pytest_asyncio.fixture
 async def add_user_poll_and_product(create_poll_and_user):
+    """Register a new user, create a poll and add a product"""
     fake = Faker()
 
     user, headers, poll = create_poll_and_user
@@ -128,9 +147,10 @@ async def add_user_poll_and_product(create_poll_and_user):
     return user, product, headers, poll
 
 
-# Register user, create poll, add product and comment
+
 @pytest_asyncio.fixture
 async def add_user_poll_product_and_comment(add_user_poll_and_product):
+    """Register a new user, create a poll, add a product and comment"""
     fake = Faker()
 
     user, headers, poll, product = add_user_poll_and_product

@@ -55,6 +55,7 @@ async def test_signup_user_already_exists(client):
 
 @pytest.mark.asyncio
 async def test_signup_missing_field(client):
+    """Ensure signup fails if any required field is missing"""
     payload = {"username": "Kiki", "email": "kiki@example.com"}
     response = await client.post(
         "/signup",
@@ -65,6 +66,7 @@ async def test_signup_missing_field(client):
 
 @pytest.mark.asyncio
 async def test_signup_empty_input(client):
+    """Ensure signup fails if any required field is empty"""
     payload = {"username": "", "email": "kiki@example.com", "password": "jjhnjhy565"}
     response = await client.post(
         "/signup",
@@ -75,6 +77,7 @@ async def test_signup_empty_input(client):
 
 @pytest.mark.asyncio
 async def test_login_success(client):
+    """Test that user can login with valid credentials"""
     db = TestSessionLocal()
     hashed_password = get_password_hash("CorrectPassword")
     user = User(
@@ -95,6 +98,7 @@ async def test_login_success(client):
 
 @pytest.mark.asyncio
 async def test_login_failed_password_or_username(client):
+    """Test that user cannot login with invalid credentials"""
     db = TestSessionLocal()
     hashed_password = get_password_hash("CorrectPassword")
     user = User(

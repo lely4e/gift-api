@@ -1,11 +1,12 @@
 from tests.conftest import TestSessionLocal
 from fastapi import status
 import pytest
-from app.db.models import Product, Poll, Comment, Vote
+from app.db.models import Vote
 
 
 @pytest.mark.asyncio
 async def test_add_vote_success(client, add_user_poll_and_product):
+    """Test adding a vote successfully"""
     user, product, headers, poll = add_user_poll_and_product
 
     response = await client.post(
@@ -20,6 +21,7 @@ async def test_add_vote_success(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_add_vote_failed_vote_only_once(client, add_user_poll_and_product):
+    """Test adding a vote that already exists"""
     user, product, headers, poll = add_user_poll_and_product
 
     response1 = await client.post(
@@ -38,6 +40,7 @@ async def test_add_vote_failed_vote_only_once(client, add_user_poll_and_product)
 
 @pytest.mark.asyncio
 async def test_add_vote_failed_missing_token(client, add_user_poll_and_product):
+    """Test adding a vote with missing token"""
     _, product, _, poll = add_user_poll_and_product
 
     response = await client.post(f"/polls/{poll.uuid}/products/{product.id}/vote")
@@ -48,6 +51,7 @@ async def test_add_vote_failed_missing_token(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_get_vote_success(client, add_user_poll_and_product):
+    """Test getting a vote successfully"""
     user, product, headers, poll = add_user_poll_and_product
 
     db = TestSessionLocal()
@@ -72,6 +76,7 @@ async def test_get_vote_success(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_delete_vote_success(client, add_user_poll_and_product):
+    """Test deleting a vote successfully"""
     user, product, headers, poll = add_user_poll_and_product
 
     db = TestSessionLocal()
@@ -95,6 +100,7 @@ async def test_delete_vote_success(client, add_user_poll_and_product):
 
 @pytest.mark.asyncio
 async def test_delete_vote_failed(client, add_user_poll_and_product):
+    """Test deleting a vote with invalid product ID"""
     user, product, headers, poll = add_user_poll_and_product
     product.id += 1
 

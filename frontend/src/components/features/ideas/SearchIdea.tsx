@@ -176,7 +176,7 @@ export default function SearchIdea({
     return (
         <>
             <div className="flex justify-between pt-3 pb-6">
-                <h2 className="text-2xl flex items-center">{ideaTitle}</h2>
+                <h2 className="text-xl sm:text-2xl flex items-center">{ideaTitle}</h2>
             </div>
 
             {/* No Results */}
@@ -274,7 +274,6 @@ export default function SearchIdea({
                                                 style={{ color: 'var(--text-primary)' }}
                                             >
                                                 {truncate(product.title, 100)}
-                                                {/* <Tooltip text={product.title} /> */}
                                             </div>
 
                                             {/* Action Buttons */}

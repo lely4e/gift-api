@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { API_URL } from "../config";
 import { signupSchema, type SignupFormErrors } from "../schemas/signUpSchema";
 import { EnvelopeIcon, LockIcon, UserIcon } from "@phosphor-icons/react";
+import { motion } from "framer-motion";
 
 export default function Signup() {
   const [signupData, setSignupData] = useState({
@@ -79,15 +80,15 @@ export default function Signup() {
   }
 
   return (
-    <div className="mx-auto flex p-4 justify-center">
-      <section>
+    <motion.div className="min-h-screen flex items-start justify-center px-4 py-10"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0, duration: 0.6 }}>
+      <section className="w-full max-w-md">
         <div
-          className="w-100 p-6 flex flex-col rounded-[30px]
-            bg-[#eaf0ff97] backdrop-blur-[20px] 
-            shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)] 
-            transition-transform duration-250 ease-in-out
-            hover:translate-y-1
-            hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
+          className="box-content poll-card backdrop-blur-md rounded-[30px] p-6 sm:p-8
+                 flex flex-col shadow-[0_-1px_25px_rgba(0,0,0,0.1)] transition-all duration-250 ease-in-out
+                 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
           style={{
             backgroundColor: 'var(--card-bg)',
           }}
@@ -105,7 +106,7 @@ export default function Signup() {
               Get started in seconds
             </p>
 
-            <div className="relative w-75 mb-3">
+            <div className="relative w-full mb-3">
               <UserIcon className="absolute left-4 top-3 text-white w-4 h-4" />
 
               <input
@@ -128,7 +129,7 @@ export default function Signup() {
 
             </div>
 
-            <div className="relative w-75 mb-3">
+            <div className="relative w-full mb-3">
               <EnvelopeIcon className="absolute left-4 top-5 -translate-y-1/2 text-white w-4 h-4" />
               <input
                 id="email"
@@ -147,7 +148,7 @@ export default function Signup() {
               )}
             </div>
 
-            <div className="relative w-75 mb-3">
+            <div className="relative w-full mb-3">
               <LockIcon className="absolute left-4 top-5 -translate-y-1/2 text-white w-4 h-4" />
               <input
                 id="password"
@@ -165,11 +166,11 @@ export default function Signup() {
                 <span className="text-red-500 text-xs mt-1">{errors.password}</span>
               )}
             </div>
-            <div className="p-7.5 pt-3">
+            <div className="w-full pt-3">
               <button
                 id="submitButton"
                 type="submit"
-                className="justify-center items-center gap-3 mx-auto w-75 h-11 bg-linear-to-r from-[#ff6a00] to-[#ec4899] hover:shadow-[0_6px_28px_rgba(255,138,91,0.5)] duration-200 rounded-full text-white cursor-pointer"
+                className="w-full h-11 bg-linear-to-r from-[#ff6a00] to-[#ec4899] hover:shadow-[0_6px_28px_rgba(255,138,91,0.5)] duration-200 rounded-full text-white cursor-pointer"
               >
                 Signup
               </button>
@@ -185,6 +186,6 @@ export default function Signup() {
           </form>
         </div>
       </section>
-    </div>
+    </motion.div>
   );
 }

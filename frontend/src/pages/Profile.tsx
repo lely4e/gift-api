@@ -50,19 +50,17 @@ export default function Profile() {
 
   return (
     <>
-      <motion.div className="grid justify-center mx-auto"
+      <motion.div className="flex justify-center px-4 py-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0, duration: 0.6 }}>
-        <div className="grid gap-6 w-full max-w-200 my-10 mx-auto grid-cols-1">
+        <div className="w-full max-w-md">
           <div
             className="
     w-full
-    flex
-    justify-center
-    p-6
+    p-6 sm:p-8
     rounded-[30px]
-    bg-white/50
+    poll-card
     backdrop-blur-[10px]
     shadow-[0_10px_25px_rgba(0,0,0,0.157),0_4px_10px_rgba(0,0,0,0.04)]
     transition-transform duration-250
@@ -73,29 +71,31 @@ export default function Profile() {
               backgroundColor: 'var(--card-bg)',
             }}
           >
-            <div className="grid items-center content-center rounded-full">
+            <div className="flex justify-center mb-6">
               <img
                 src={avatarUrl}
                 alt="avatar"
                 width={140}
+                className="w-24 sm:w-32"
               />
             </div>
-            <div></div>
-            <div className="flex flex-col justify-center pl-10 gap-2.5">
+
+            <div className="flex flex-col gap-2.5">
               {!isEditing ? (
                 <>
                   {/* View Mode */}
-                  <div className="flex items-center justify-between" >
+                  <div className="flex items-center justify-between gap-2.5">
                     <div className="flex items-center text-left gap-2.5">
                       <strong>Username:</strong> {user.username}
+
+                      <a
+                        onClick={startEditing}
+                        className="group relative cursor-pointer shrink-0 hover:text-[#F25E0D]"
+                      >
+                        <PencilSimpleLineIcon size={20} strokeWidth={1.5} />
+                        <Tooltip text="Edit" />
+                      </a>
                     </div>
-                    <a
-                      onClick={startEditing}
-                      className="group relative cursor-pointer color-[#737791] hover:text-[#F25E0D]"
-                    >
-                      <PencilSimpleLineIcon size={20} strokeWidth={1.5} />
-                      <Tooltip text="Edit" />
-                    </a>
                   </div>
                   <div className="flex items-center text-left gap-2.5">
                     <strong>Email address:</strong> {user.email}

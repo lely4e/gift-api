@@ -89,7 +89,7 @@ const Polls: React.FC = () => {
   return (
     <>
       {/* wrap-title-poll */}
-      <motion.div className="flex justify-between items-start mr-5 text-center"
+      <motion.div className="flex justify-between items-start text-center"
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{
@@ -98,10 +98,10 @@ const Polls: React.FC = () => {
           ease: [0.16, 1, 0.3, 1],
         }}>
         <div className="flex flex-col items-center mx-auto">
-          <h1 className="px-5 text-[1.5em] leading-[1.1] font-black mb-2 mt-16 " style={{ color: 'var(--text-heading)' }}>
+          <h1 className="px-5 text-[1.5em] leading-[1.1] font-black mb-2 mt-16" style={{ color: 'var(--text-heading)' }}>
             Polls & Picks
           </h1>
-          <span className="m-2 text-[#737791] font-serif italic" style={{ color: 'var(--text-primary)' }}>
+          <span className="font-serif italic" style={{ color: 'var(--text-primary)' }}>
             View, manage, and collaborate on your polls.
           </span>
         </div>
@@ -197,7 +197,7 @@ const Polls: React.FC = () => {
                   isOpen={share === poll.uuid}
                   onClose={() => setShare(null)}
                 >
-                  <div className="flex justify-between" >
+                  <div className="flex justify-between items-start gap-2 mb-4" >
                     <h3 className="font-bold text-lg mb-4.5 text-center ">
                       Your event link for{" "}
                       <span className="text-[#F25E0D]" >{poll.title}</span> is
@@ -209,14 +209,14 @@ const Polls: React.FC = () => {
                         e.stopPropagation();
                         setShare(null);
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer shrink-0 mt-1"
                       size={20}
                       weight="bold"
                     />
                   </div>
                   <div className="flex">
                     <input
-                      className="border-0 border-b border-[#F25E0D] bg-transparent text-[#737791] pl-2.5 text-base w-125 h-12 "
+                      className="border-0 border-b border-[#F25E0D] bg-transparent text-[#737791] text-sm flex-1 min-w-0 h-12 "
                       id={poll.uuid}
                       value={`${window.location.origin}/polls/${poll.uuid}`}
                       readOnly
@@ -322,7 +322,7 @@ const Polls: React.FC = () => {
                       style={{
                         color: daysLeft(poll) > 1
                           ? 'var(--accent-orange)'
-                          : poll.active ? 'var(--text-active)' : 'var(--text-inactive)'
+                          : poll.active ? 'var(--accent-orange)' : 'var(--text-inactive)'
                       }}
                     />
                   </span>
@@ -403,7 +403,7 @@ const Polls: React.FC = () => {
             <CaretDownIcon size={20} strokeWidth={2} weight="bold" />
           )}
         </div>
-   
+
       </motion.div>
       {/* wrap-poll */}
       <motion.div className="mx-auto flex px-4 justify-center"
@@ -468,7 +468,7 @@ const Polls: React.FC = () => {
                   isOpen={share === poll.uuid}
                   onClose={() => setShare(null)}
                 >
-                  <div className="flex justify-between">
+                  <div className="flex justify-between  items-start gap-2 mb-4">
                     <h3 className="font-bold text-lg mb-4.5 text-center ">
                       Your event link for{" "}
                       <span className="text-[#F25E0D]">{poll.title}</span> is
@@ -487,7 +487,7 @@ const Polls: React.FC = () => {
                   </div>
                   <div className="flex">
                     <input
-                      className="border-0 border-b border-[#F25E0D] bg-transparent text-[#737791] pl-2.5 text-base w-125 h-12 "
+                      className="border-0 border-b border-[#F25E0D] bg-transparent text-[#737791] text-sm flex-1 min-w-0 h-12 "
                       id={poll.uuid}
                       value={`${window.location.origin}/polls/${poll.uuid}`}
                       readOnly
@@ -594,7 +594,7 @@ const Polls: React.FC = () => {
                       style={{
                         color: daysLeft(poll) > 1
                           ? 'var(--accent-orange)'
-                          : poll.active ? 'var(--text-active)' : 'var(--text-inactive)'
+                          : poll.active ? 'var(--accent-orange)' : 'var(--text-inactive)'
                       }}
                     />
                   </span>

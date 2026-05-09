@@ -4,7 +4,6 @@ import {
     BookmarksIcon,
     CheckIcon,
     CopyIcon,
-    DotIcon,
     TrashSimpleIcon,
 } from "@phosphor-icons/react";
 import { getCategoryColor } from "../../../utils/colorsCategory";
@@ -32,8 +31,8 @@ export default function HistoryPanel({
     copiedId,
 }: HistoryPanelProps) {
     return (
-        <div className="flex flex-col items-center">
-            <div className="relative w-200 flex-col poll-card backdrop-blur-md rounded-[30px] p-6 shadow-md space-y-2"
+        <div className="w-full max-w-3xl mx-auto">
+            <div className="relative  poll-card backdrop-blur-md rounded-[30px] p-4 sm:p-6 shadow-md space-y-2 mt-6"
                 style={{
                     backgroundColor: 'var(--card-bg)',
                 }}>
@@ -50,27 +49,22 @@ export default function HistoryPanel({
                         transition={{ duration: 2, repeat: Infinity }}
                         className="w-2.5 h-2.5 rounded-full bg-[#ba4cea]"
                     />
-                    <span className="text-sm font-bold text-[#ba4cea]">AI GENERATED</span>
+                    <span className="text-[0.5rem] sm:text-sm font-bold text-[#ba4cea]">AI GENERATED</span>
                 </motion.div>
 
                 <h2 className="text-center text-xl font-black mb-6">
                     Your AI Idea History
                 </h2>
 
-                <div className="flex justify-center items-center text-center text-sm  font-serif italic mb-6"
+                <div className="grid justify-center items-center text-center text-sm font-serif italic mb-6"
                     style={{ color: 'var(--text-primary)' }}>
                     <p>AI-generated suggestions, saved over time</p>
-                    <DotIcon size={22} weight="bold" />
-                    <span>
-                        <span className="text-[#ba4cea] font-black">{history.length}</span>{" "}
-                        ideas collected
-                    </span>
                 </div>
 
                 {history.map((idea) => (
                     <div
                         key={idea.id}
-                        className="flex justify-between items-center text-left text-[14px]  py-2 px-4 rounded-xl poll-card hover:-translate-y-1 hover:shadow-xl"
+                        className="flex justify-between items-center text-left text-[12px] sm:text-[14px]  py-2 px-4 rounded-xl poll-card hover:-translate-y-1 hover:shadow-xl"
                         style={{
                             backgroundColor: 'var(--card-bg)',
                         }}

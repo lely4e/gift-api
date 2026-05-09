@@ -240,14 +240,14 @@ export default function Products({
                 {/* product-container */}
                 <div className="grid gap-6 w-full max-w-200 my-10 mx-auto grid-cols-1">
                     {products?.map((product) => (
-                        <div key={product.id} className="mb-4">
+                        <div key={product.id} className="mb-4 ">
                             {/* card-product */}
                             <div
                                 data-testid={`product-${product.id}`}
                                 className="relative 
                                poll-card
-                                max-w-200 backdrop-blur-[10px] rounded-[30px] p-6 
-                                flex shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)] 
+                                sm:max-w-200 backdrop-blur-[10px] rounded-[30px] p-4 sm:p-6
+                                grid sm:flex shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)] 
                                 transition-all duration-250 ease-in-out gap-3 
                                 hover:-translate-y-1 
                                 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08),0_8px_16px_rgba(0,0,0,0.06)]"
@@ -257,7 +257,7 @@ export default function Products({
                             >
                                 {/* product-image-container */}
                                 <div
-                                    className="w-50 max-h-57.5 aspect-square rounded-xl overflow-hidden shrink-0 hover:text-[#0096FF] hover:cursor-pointer"
+                                    className="w-full sm:w-50 sm:max-h-57.5 aspect-square rounded-3xl sm:rounded-xl overflow-hidden shrink-0 hover:text-[#0096FF] hover:cursor-pointer"
                                     onClick={() => window.open(product.link, "_blank")}
                                 >
                                     <img
@@ -268,7 +268,7 @@ export default function Products({
                                 </div>
 
                                 {/* product-text */}
-                                <div className="flex flex-col pl-5 text-left flex-1" style={{ color: 'var(--text-primary)' }}>
+                                <div className="flex flex-col  text-left flex-1" style={{ color: 'var(--text-primary)' }}>
                                     {/* product-title-price */}
                                     <div className="flex justify-between items-start gap-5">
                                         <div className="flex text-sm gap-2.5 items-center">
@@ -478,23 +478,24 @@ export default function Products({
                                                     key={comment.id}
                                                     className="flex gap-2.5 justify-between items-center "
                                                 >
-                                                    <p className=" poll-card text-sm p-4  bg-[#E6E9F2]  mt-3 rounded-3xl rounded-bl-none flex-1 flex items-center pl-4" style={{
+                                                    <div className=" poll-card text-sm p-2 sm:p-4  bg-[#E6E9F2]  mt-3 rounded-3xl rounded-bl-none flex-1 flex items-center" style={{
                                                         backgroundColor: 'var(--card-bg)',
                                                     }}>
                                                         <img
                                                             src={`https://api.dicebear.com/7.x/bottts/svg?seed=${comment.user_id}`}
                                                             alt="avatar"
-                                                            className="w-8 mr-3"
+                                                            className="w-6 mr-2 sm:w-8 sm:mr-3"
                                                         />
                                                         <div className="">
-                                                            <p className="mr-2 text-xs flex items-center" data-testid={`comment-${comment.user_id}`}>
-                                                                {comment.created_by} <DotIcon size={20} weight="bold"></DotIcon>{" "}
-                                                                {formatDate(String(comment.created_at))}
-                                                            </p>
+                                                            <div className="mr-2 text-xs grid sm:flex items-center" data-testid={`comment-${comment.user_id}`}>
+                                                                <p>{comment.created_by}</p>
+                                                                <DotIcon size={20} weight="bold" className="hidden sm:flex"></DotIcon>{" "}
+                                                                <p>{formatDate(String(comment.created_at))}</p>
+                                                            </div>
 
                                                             <p className="font-bold" data-testid={`comment-text-${comment.user_id}`}> {comment.text} </p>
                                                         </div>
-                                                    </p>
+                                                    </div>
 
                                                     {user && user.id === comment.user_id && (
                                                         <TrashSimpleIcon

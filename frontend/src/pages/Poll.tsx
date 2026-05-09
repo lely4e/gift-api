@@ -181,21 +181,21 @@ export default function PollPage() {
                     )}
                 </motion.div>
             </div>
-
-            {history.length > 0 && openHistory && (
-                <HistoryPanel
-                    history={history}
-                    uuid={poll.uuid}
-                    openHistoryDelete={openHistoryDelete}
-                    setOpenHistoryDelete={setOpenHistoryDelete}
-                    onDelete={handleDeleteHistory}
-                    onAddToIdeas={handleAddHistoryToIdeas}
-                    onCopy={handleCopyHistory}
-                    copiedId={copiedId}
-                />
-            )}
-
-            <motion.div className="flex flex-col items-center "
+            <div className="flex flex-col items-center mt-6">
+                {history.length > 0 && openHistory && (
+                    <HistoryPanel
+                        history={history}
+                        uuid={poll.uuid}
+                        openHistoryDelete={openHistoryDelete}
+                        setOpenHistoryDelete={setOpenHistoryDelete}
+                        onDelete={handleDeleteHistory}
+                        onAddToIdeas={handleAddHistoryToIdeas}
+                        onCopy={handleCopyHistory}
+                        copiedId={copiedId}
+                    />
+                )}
+            </div>
+            <motion.div className="flex flex-col items-center mt-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7, duration: 0.6 }}>

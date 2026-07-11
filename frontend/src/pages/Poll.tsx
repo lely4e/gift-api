@@ -181,7 +181,7 @@ export default function PollPage() {
                     )}
                 </motion.div>
             </div>
-            <div className="flex flex-col items-center mt-6">
+            <div className="flex flex-col items-center mt-6 px-4">
                 {history.length > 0 && openHistory && (
                     <HistoryPanel
                         history={history}

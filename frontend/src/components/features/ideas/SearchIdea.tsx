@@ -184,7 +184,7 @@ export default function SearchIdea({
                 hasSearched &&
                 searchResults.length === 0 &&
                 !loading && (
-                    <p className="text-center mt-5 text-sm text-[#737791]">
+                    <p className="text-center mt-5 text-sm" style={{ color: 'var(--text-primary)' }}>
                         No results found.
                     </p>
                 )}
@@ -303,7 +303,7 @@ export default function SearchIdea({
                             {/* Loading indicator slide */}
                             {hasMore && (
                                 <div ref={sentinelRef} className="flex-[0_0_80px] flex items-center justify-center h-full px-2">
-                                    <div className="text-[#737791] text-sm animate-pulse">
+                                    <div className="text-sm animate-pulse" style={{ color: 'var(--text-primary)' }}>
                                         {loadingMore ? "Loading..." : "Scroll for more"}
                                     </div>
                                 </div>

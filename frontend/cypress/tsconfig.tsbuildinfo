@@ -1,0 +1,1 @@
+{"root":["../cypress.config.ts","./e2e/addproduct.cy.ts","./e2e/addsharedpoll.cy.ts","./e2e/createpoll.cy.ts","./e2e/getgiftsuggestion.cy.ts","./e2e/login.cy.ts","./e2e/poll.cy.ts","./e2e/product.cy.ts","./e2e/sharedpoll.cy.ts","./e2e/signup.cy.ts","./support/commands.ts","./support/e2e.ts"],"version":"5.9.3"}

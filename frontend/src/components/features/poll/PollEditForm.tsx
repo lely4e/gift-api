@@ -108,7 +108,7 @@ export default function PollEditForm({
             </div>
 
             {/* Deadline */}
-            <div className="flex items-center gap-2 mt-8 text-[12px] text-[#EA7317]">
+            <div className="flex items-center gap-2 mt-8 text-[12px]" style={{ color: 'var(--accent-orange)' }}>
                 <ClockIcon size={14} strokeWidth={2} className="shrink-0" />
                 <input
                     type="date"

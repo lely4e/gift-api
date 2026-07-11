@@ -236,7 +236,7 @@ export default function Search({
 
       {/* No results */}
       {showProducts && hasSearched && searchResults.length === 0 && !loading && (
-        <p className="text-center mt-5 text-sm text-[#737791]">
+        <p className="text-center mt-5 text-sm" style={{ color: 'var(--text-primary)' }}>
           No results found.
         </p>
       )}
@@ -364,7 +364,7 @@ export default function Search({
                   ref={sentinelRef}
                   className="flex-[0_0_80px] flex items-center justify-center px-2"
                 >
-                  <span className="text-[#737791] text-sm animate-pulse">
+                  <span className="text-sm animate-pulse" style={{ color: 'var(--text-primary)' }}>
                     {loadingMore ? "Loading…" : ""}
                   </span>
                 </div>

@@ -31,7 +31,7 @@ export default function HistoryPanel({
     copiedId,
 }: HistoryPanelProps) {
     return (
-        <div className="w-full max-w-3xl mx-auto">
+        <div className="w-full max-w-200 mx-auto">
             <div className="relative  poll-card backdrop-blur-md rounded-[30px] p-4 sm:p-6 shadow-md space-y-2 mt-6"
                 style={{
                     backgroundColor: 'var(--card-bg)',
@@ -41,15 +41,16 @@ export default function HistoryPanel({
                     initial={{ opacity: 0, scale: 0.8, rotate: -12 }}
                     animate={{ opacity: 1, scale: 1, rotate: -8 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
-                    className="absolute -top-4 -right-4 inline-flex items-center gap-2 px-5 py-2.5 bg-[#e4c3f9] rounded-full shadow-lg"
-
+                    className="absolute -top-4 -right-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full shadow-lg"
+                    style={{ backgroundColor: 'var(--accent-purple-bg)' }}
                 >
                     <motion.div
                         animate={{ scale: [0.7, 1.2, 0.7] }}
                         transition={{ duration: 2, repeat: Infinity }}
-                        className="w-2.5 h-2.5 rounded-full bg-[#ba4cea]"
+                        className="w-2.5 h-2.5 rounded-full"
+                        style={{ backgroundColor: 'var(--accent-purple)' }}
                     />
-                    <span className="text-[0.5rem] sm:text-sm font-bold text-[#ba4cea]">AI GENERATED</span>
+                    <span className="text-[0.5rem] sm:text-sm font-bold" style={{ color: 'var(--accent-purple)' }}>AI GENERATED</span>
                 </motion.div>
 
                 <h2 className="text-center text-xl font-black mb-6">

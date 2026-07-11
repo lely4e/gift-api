@@ -415,12 +415,9 @@ export default function Products({
                                     {/* progress bar */}
                                     <div className="w-full h-3 bg-[#e5e7eb] rounded-full overflow-hidden my-1.5 mb-2.5" style={{ backgroundColor: 'var(--progress-track)' }}>
                                         <div
-                                            className={`h-full 
-                                                    ${totalVotes === 0
-                                                    ? "bg-[#e5e7eb]"
-                                                    : "bg-linear-to-br from-[#ff6a00] to-[#ec4899] transition-[width] duration-300"
-                                                }`}
+                                            className={totalVotes === 0 ? "h-full" : "h-full transition-[width] duration-300"}
                                             style={{
+                                                backgroundColor: totalVotes === 0 ? 'transparent' : 'var(--accent-orange-2)',
                                                 width: `${(product.votes / totalVotes) * 100}%`,
                                             }}
                                         />
@@ -503,7 +500,8 @@ export default function Products({
 
                                                             strokeWidth={1.5}
                                                             onClick={() => setOpenComment(true)}
-                                                            className="cursor-pointer text-[#737791] hover:text-[#F25E0D] items-center"
+                                                            className="cursor-pointer hover:text-[#F25E0D] items-center"
+                                                            style={{ color: 'var(--text-primary)' }}
                                                         />
                                                     )}
                                                     <div>
@@ -595,7 +593,7 @@ export default function Products({
                     )}
 
                     {!hasMore && products.length > 0 && (
-                        <p className="text-center text-sm text-[#737791] py-4">
+                        <p className="text-center text-sm py-4" style={{ color: 'var(--text-muted)' }}>
                             No more products
                         </p>
                     )}

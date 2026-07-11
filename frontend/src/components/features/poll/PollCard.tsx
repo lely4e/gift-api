@@ -249,7 +249,7 @@ export default function PollCard({
 
             {/* Budget */}
             <p
-                className="text-sm mt-1 text-left"
+                className="text-lg sm:text-xl font-bold mt-1 text-left"
                 style={{ color: poll.active ? 'var(--text-active)' : 'var(--text-inactive)' }}
             >
                 Budget: ${poll.budget}
@@ -268,7 +268,7 @@ export default function PollCard({
             {/* Meta row: items · deadline · creator */}
             <div
                 className="flex flex-wrap items-center gap-x-1 gap-y-1 mt-4 mb-4 text-[12px]"
-                style={{ color: 'var(--accent-orange)' }}
+                style={{ color: poll.active ? 'var(--text-muted)' : 'var(--text-inactive)' }}
             >
                 <ShoppingCartSimpleIcon size={14} weight="fill" />
                 <span>{poll.total_products} {poll.total_products === 1 ? "item" : "items"}</span>
@@ -311,9 +311,10 @@ export default function PollCard({
             <div className="flex flex-wrap items-center gap-2 mt-auto">
                 {history.length !== 0 && (
                     <button
-                        className="flex items-center gap-2 font-medium text-[14px] text-[#cb7dff]
-                                   border border-[#ba64f3] rounded-full px-4 py-3 cursor-pointer
+                        className="flex items-center gap-2 font-medium text-[14px]
+                                   border rounded-full px-4 py-3 cursor-pointer
                                    transition duration-300 hover:scale-105"
+                        style={{ color: 'var(--accent-purple)', borderColor: 'var(--accent-purple)' }}
                         onClick={handleToggleHistory}
                     >
                         <ArrowCounterClockwiseIcon size={14} weight="bold" />

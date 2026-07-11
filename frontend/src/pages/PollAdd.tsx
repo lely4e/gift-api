@@ -155,7 +155,7 @@ export default function PollAdd() {
               )}
               {/* deadline */}
               <div>
-                <div className="flex items-center mt-8 mb-5 gap-2 ml-0 text-[12px] text-[#EA7317]">
+                <div className="flex items-center mt-8 mb-5 gap-2 ml-0 text-[12px]" style={{ color: 'var(--accent-orange)' }}>
                   <ClockIcon size={14} strokeWidth={1.5} />
                   <input
                     id="date"
@@ -164,7 +164,8 @@ export default function PollAdd() {
                     placeholder="Date"
                     value={deadline}
                     onChange={(e) => setDeadline(e.target.value)}
-                    className={`date-icon flex-1 text-left text-sm text-[#737791] font-serif italic pt-1 pb-1
+                    style={{ color: 'var(--text-primary)' }}
+                    className={`date-icon flex-1 text-left text-sm font-serif italic pt-1 pb-1
                     ${errors.deadline ? "border-red-400" : "border-[#737791]"}`}
                   />
                   {errors.deadline && (

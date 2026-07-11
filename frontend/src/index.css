@@ -25,11 +25,11 @@
 
 :root {
 
-    --text-primary: #737791;
-    --text-heading: #737791;
-    --text-muted: #B0B6CC;
+    --text-primary: #575B78;
+    --text-heading: #575B78;
+    --text-muted: #454863;
     --text-active: #000000;
-    --text-inactive: #B0B6CC;
+    --text-inactive: #5A5E7C;
 
     --card-bg: rgba(255, 255, 255, 0.50);
     --modal-card-bg: rgb(236, 230, 255);
@@ -43,14 +43,15 @@
 
     --progress-track: #e5e7eb;
     --progress-track-button: #bbc6dc;
-    --accent-orange: #EA7317;
+    --accent-orange: #9A3412;
     --accent-orange-2: #F25E0D;
-    --accent-purple: #ba4cea;
+    --accent-purple: #7E22CE;
     --accent-purple-bg: #efd6ff;
 
     --toggle-inactive-bg: #ffffff;
     --toggle-inactive-border: #e5e7eb;
     --toggle-inactive-text: #374151;
+    --chip-active-bg: color-mix(in srgb, var(--accent-orange-2) 12%, transparent);
 
     --gradient: linear-gradient(-45deg, #beb0fc, #ffcecc, #d8ecff, #fbdbd4);
 }
@@ -59,9 +60,9 @@
 
     --text-primary: #c8cadf;
     --text-heading: #bec4e1;
-    --text-muted: #6b6e8a;
+    --text-muted: #9A9DBF;
     --text-active: #e6eaff;
-    --text-inactive: #4a4d66;
+    --text-inactive: #868AB0;
 
     --card-bg: rgba(102, 94, 123, 0.141);
     --modal-card-bg: rgb(43, 39, 55);

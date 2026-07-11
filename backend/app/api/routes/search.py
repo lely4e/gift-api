@@ -10,7 +10,6 @@ from fastapi_pagination import Page, paginate
 from datetime import timedelta
 import json
 
-
 search_router = APIRouter(dependencies=[Depends(oauth2_scheme)])
 
 

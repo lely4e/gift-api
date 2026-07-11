@@ -75,11 +75,11 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
   return (
     <>
       {/* wrap-poll */}
-      <div className="">
-        <div>
+      <div className="w-full">
+        <div className="w-full">
           <section className="w-full">
             {/* add-poll-form */}
-            <div className="">
+            <div className="w-full">
               <form
                 onSubmit={handleSubmit}
                 className="poll-card backdrop-blur-md rounded-[30px] p-4 sm:p-14 
@@ -225,7 +225,7 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
             {/* ideas-list */}
             {openIdeas && (
               <div
-                className=" p-4 sm:p6 poll-card rounded-[30px] "
+                className="w-full p-4 sm:p-6 poll-card rounded-[30px] overflow-hidden"
                 style={{
                   backgroundColor: "var(--card-bg)",
                 }}

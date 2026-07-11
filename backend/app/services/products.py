@@ -2,9 +2,9 @@
 from pathlib import Path
 
 # import httpx
+# import requests
 # from app.core.config import settings
 import json
-
 
 # -------------------------- JSON ---------------------
 

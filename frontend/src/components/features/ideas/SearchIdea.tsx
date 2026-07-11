@@ -191,7 +191,7 @@ export default function SearchIdea({
 
             {/* Products carousel */}
             {showProducts && searchResults.length > 0 && (
-                <div className="relative w-full bg-[#6B5CFF33] rounded-[30px] px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
+                <div className="relative w-full bg-[#6B5CFF33] rounded-[30px] px-10 py-6 sm:py-8 lg:py-10">
                     {/* Prev button */}
                     <button
                         onClick={() => emblaApi?.scrollPrev()}

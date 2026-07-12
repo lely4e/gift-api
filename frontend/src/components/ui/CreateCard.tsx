@@ -12,9 +12,10 @@ export default function CreateCard({ address, text }: CreateCardProps) {
     <>
       {/* create-card */}
       <div
-        className="h-full box-content poll-card backdrop-blur-[10px] border-2 border-dashed 
-        border-[#cbd5f5] rounded-[30px] p-6 flex flex-col items-center justify-center cursor-pointer
+        className="h-full box-content poll-card backdrop-blur-[10px] border-2 border-dashed
+        rounded-[30px] p-6 flex flex-col items-center justify-center cursor-pointer
         transition-all duration-250 hover:border-[#F25E0D] hover:bg-[rgba(246,143,92,0.05)]"
+        style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
         onClick={() => navigate(address)}
       >
         {/* create-icon */}

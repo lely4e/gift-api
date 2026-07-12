@@ -24,6 +24,7 @@ import {
     XIcon,
 } from "@phosphor-icons/react";
 import { daysLeft } from "../../../utils/date";
+import { getPollStatus } from "../../../utils/pollStatus";
 import { motion } from "framer-motion";
 import Modal from "../../ui/Modal";
 import { Tooltip } from "../../ui/Tooltip";
@@ -122,7 +123,7 @@ export default function PollCard({
                         {poll.title}
                     </h3>
                     <div className="relative shrink-0 w-2 h-2">
-                        {poll.active && (
+                        {getPollStatus(poll) === "active" && (
                             <div
                                 className="absolute inset-0 rounded-full animate-ping"
                                 style={{ backgroundColor: "#4CAF50", opacity: 0.6 }}
@@ -130,7 +131,7 @@ export default function PollCard({
                         )}
                         <div
                             className="relative w-2 h-2 rounded-full"
-                            style={{ backgroundColor: poll.active ? "#4CAF50" : "#F44336" }}
+                            style={{ backgroundColor: getPollStatus(poll) === "active" ? "#4CAF50" : "#F44336" }}
                         />
                     </div>
                 </div>

@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { Poll } from "../utils/types";
 import { authFetch } from "../utils/api/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API_URL } from "../config";
 import Modal from "../components/ui/Modal";
 import CreateCard from "../components/ui/CreateCard";
+import StatusSegmentedControl from "../components/ui/StatusSegmentedControl";
 import { CalendarBlankIcon, CalendarCheckIcon, CalendarIcon, CaretDownIcon, CaretUpIcon, CheckIcon, DotIcon, LinkIcon, ShareFatIcon, ShoppingCartSimpleIcon, XIcon } from "@phosphor-icons/react";
 import { daysLeft, getTimeLeftPercentage } from "../utils/date";
 import { motion } from "framer-motion";
+import {
+  getPollStatus,
+  isPollStatusFilter,
+  matchesPollStatusFilter,
+  countPollStatuses,
+  type PollStatusFilter,
+} from "../utils/pollStatus";
 
 const Polls: React.FC = () => {
   const [polls, setPolls] = useState<Poll[]>([]);
@@ -18,6 +26,33 @@ const Polls: React.FC = () => {
   const [openPolls, setOpenPollls] = useState(true);
 
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sharedFilterParam = searchParams.get("shared");
+  const myFilterParam = searchParams.get("mine");
+  const sharedFilter: PollStatusFilter = isPollStatusFilter(sharedFilterParam) ? sharedFilterParam : "all";
+  const myFilter: PollStatusFilter = isPollStatusFilter(myFilterParam) ? myFilterParam : "all";
+
+  const setStatusFilter = (key: "shared" | "mine", filter: PollStatusFilter) => {
+    const next = new URLSearchParams(searchParams);
+    if (filter === "all") {
+      next.delete(key);
+    } else {
+      next.set(key, filter);
+    }
+    setSearchParams(next, { replace: true });
+  };
+
+  const filteredSharedPolls = useMemo(
+    () => sharedPolls.filter((poll) => matchesPollStatusFilter(poll, sharedFilter)),
+    [sharedPolls, sharedFilter],
+  );
+  const filteredPolls = useMemo(
+    () => polls.filter((poll) => matchesPollStatusFilter(poll, myFilter)),
+    [polls, myFilter],
+  );
+  const sharedStatusCounts = useMemo(() => countPollStatuses(sharedPolls), [sharedPolls]);
+  const myStatusCounts = useMemo(() => countPollStatuses(polls), [polls]);
 
   const [share, setShare] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
@@ -107,35 +142,43 @@ const Polls: React.FC = () => {
         </div>
       </motion.div>
 
-      <motion.div className="w-full flex"
+      {sharedPolls && sharedPolls.length > 0 && (
+        <hr className="w-full border-t mt-8 mb-2 sm:hidden" style={{ borderColor: 'var(--divider-color)' }} />
+      )}
+
+      <motion.div className="w-full flex flex-wrap items-center gap-3"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.6 }}>
         {sharedPolls && sharedPolls.length > 0 && (
-          <div
-            className={`group relative inline-flex rounded-3xl px-6 py-3 ml-4 mt-6 cursor-pointer items-center gap-2 text-[14px] border-2 transition-colors
-            ${openSharedPolls
-                ? "shadow-sm"
-                : "hover:border-orange-400 hover:text-orange-500 hover:shadow-md"
-              }`}
-            style={openSharedPolls ? {
-              backgroundColor: 'var(--chip-active-bg)',
-              borderColor: 'var(--accent-orange-2)',
-              color: 'var(--accent-orange)',
-            } : {
-              backgroundColor: 'var(--toggle-inactive-bg)',
-              borderColor: 'var(--toggle-inactive-border)',
-              color: 'var(--toggle-inactive-text)',
-            }}
-            onClick={() => setOpenSharedPollls((prev) => !prev)}
-          >
-            Shared With Me{" "}
-            {openSharedPolls ? (
-              <CaretUpIcon size={20} strokeWidth={2} weight="bold" />
-            ) : (
-              <CaretDownIcon size={20} strokeWidth={2} weight="bold" />
+          <>
+            <button
+              type="button"
+              onClick={() => setOpenSharedPollls((prev) => !prev)}
+              className="inline-flex w-full sm:w-auto items-center justify-between sm:justify-start gap-2 ml-3 mt-2 sm:mt-6 px-1 py-1 rounded-md
+                         text-[16px] font-semibold  tracking-normal cursor-pointer
+                         hover:opacity-70 transition-opacity
+                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--text-muted)"
+              style={{ color: 'var(--text-eyebrow)' }}
+            >
+              Shared With Me
+              {openSharedPolls ? (
+                <CaretUpIcon size={20} strokeWidth={2} weight="bold" style={{ color: 'var(--text-muted)' }} />
+              ) : (
+                <CaretDownIcon size={20} strokeWidth={2} weight="bold" style={{ color: 'var(--text-muted)' }} />
+              )}
+            </button>
+            {openSharedPolls && (
+              <div className="w-full flex justify-center mt-2 sm:w-auto sm:mt-6 sm:mr-4 sm:ml-auto sm:justify-end">
+                <StatusSegmentedControl
+                  value={sharedFilter}
+                  onChange={(filter) => setStatusFilter("shared", filter)}
+                  counts={sharedStatusCounts}
+                  label="Filter shared polls by status"
+                />
+              </div>
             )}
-          </div>
+          </>
         )}
       </motion.div>
       {/* wrap-poll */}
@@ -146,7 +189,21 @@ const Polls: React.FC = () => {
         {/* poll-grid */}
         {openSharedPolls && sharedPolls && sharedPolls.length > 0 && (
           <div className="grid gap-6 w-full my-10 mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-            {sharedPolls.map((poll) => (
+            {filteredSharedPolls.length === 0 && (
+              <div className="col-span-full flex justify-center py-10">
+                <p
+                  className="text-sm rounded-full border px-4 py-2"
+                  style={{
+                    color: 'var(--text-muted)',
+                    backgroundColor: 'var(--toggle-inactive-bg)',
+                    borderColor: 'var(--toggle-inactive-border)',
+                  }}
+                >
+                  No {sharedFilter} polls yet
+                </p>
+              </div>
+            )}
+            {filteredSharedPolls.map((poll) => (
               // card
               <div
                 key={poll.uuid}
@@ -167,20 +224,20 @@ const Polls: React.FC = () => {
                   {/* active-button */}
                   <div className="flex items-center justify-between mr-3">
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full -rotate-6"
-                      style={{ backgroundColor: poll.active ? 'var(--pill-active-bg)' : 'var(--pill-inactive-bg)' }}
+                      style={{ backgroundColor: getPollStatus(poll) === "active" ? 'var(--pill-active-bg)' : 'var(--pill-inactive-bg)' }}
                     >
 
                       <div className="relative w-1.5 h-1.5">
-                        {poll.active && (
+                        {getPollStatus(poll) === "active" && (
                           <div className="absolute inset-0 rounded-full animate-ping"
                             style={{ backgroundColor: '#4CAF50', opacity: 0.6 }} />
                         )}
                         <div className="relative w-1.5 h-1.5 rounded-full "
-                          style={{ backgroundColor: poll.active ? '#4CAF50' : '#F44336' }} />
+                          style={{ backgroundColor: getPollStatus(poll) === "active" ? '#4CAF50' : '#F44336' }} />
                       </div>
 
                       <span className="text-[10px] font-bold text-gray-700 tracking-[0.5px]" style={{ color: 'var(--pill-text)' }}>
-                        {poll.active ? "Active" : "Closed"}
+                        {getPollStatus(poll) === "active" ? "Active" : "Closed"}
                       </span>
                     </div>
                   </div>
@@ -323,7 +380,7 @@ const Polls: React.FC = () => {
                 {/* creator chip: footer, full width, non-interactive */}
                 <div
                   className="flex w-full items-center justify-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] sm:text-[12px] select-none"
-                  style={{ borderColor: 'color-mix(in srgb, var(--text-muted) 35%, transparent)', color: 'var(--text-muted)' }}
+                  style={{ borderColor: 'var(--chip-border-muted)', color: 'var(--text-muted)' }}
                 >
                   <img
                     src={`https://api.dicebear.com/7.x/bottts/svg?seed=${poll.user_id}`}
@@ -338,37 +395,45 @@ const Polls: React.FC = () => {
         )}
       </motion.div>
 
-      <motion.div className="w-full flex"
+      {sharedPolls && sharedPolls.length > 0 && (
+        <hr
+          className={`w-full border-t mb-0 sm:hidden ${openSharedPolls ? "mt-8" : "mt-2"}`}
+          style={{ borderColor: 'var(--divider-color)' }}
+        />
+      )}
+
+      <motion.div className="w-full flex flex-wrap items-center gap-3"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.6 }}>
         {/* {polls && polls.length > 0 && ( */}
-        <div
-          className={`group relative inline-flex rounded-3xl px-6 py-3 ml-4 mt-14 cursor-pointer items-center gap-2 text-[14px] border-2 transition-colors
-            ${openPolls
-              ? "shadow-sm"
-              : "hover:border-orange-400 hover:text-orange-500 hover:shadow-md"
-            }`}
-
-          style={openPolls ? {
-            backgroundColor: 'var(--chip-active-bg)',
-            borderColor: 'var(--accent-orange-2)',
-            color: 'var(--accent-orange)',
-          } : {
-            backgroundColor: 'var(--toggle-inactive-bg)',
-            borderColor: 'var(--toggle-inactive-border)',
-            color: 'var(--toggle-inactive-text)',
-          }}
+        <button
+          type="button"
           onClick={() => setOpenPollls((prev) => !prev)}
+          className="inline-flex w-full sm:w-auto items-center justify-between sm:justify-start gap-2 ml-3 mt-2 sm:mt-14 px-1 py-1 rounded-md
+                     text-[16px] font-semibold  tracking-normal cursor-pointer
+                     hover:opacity-70 transition-opacity
+                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--text-muted)"
+          style={{ color: 'var(--text-eyebrow)' }}
         >
-          My Polls{" "}
+          My Polls
           {openPolls ? (
-            <CaretUpIcon size={20} strokeWidth={2} weight="bold" />
+            <CaretUpIcon size={20} strokeWidth={2} weight="bold" style={{ color: 'var(--text-muted)' }} />
           ) : (
-            <CaretDownIcon size={20} strokeWidth={2} weight="bold" />
+            <CaretDownIcon size={20} strokeWidth={2} weight="bold" style={{ color: 'var(--text-muted)' }} />
           )}
-        </div>
+        </button>
 
+        {openPolls && (
+          <div className="w-full flex justify-center mt-2 sm:w-auto sm:mt-14 sm:mr-4 sm:ml-auto sm:justify-end">
+            <StatusSegmentedControl
+              value={myFilter}
+              onChange={(filter) => setStatusFilter("mine", filter)}
+              counts={myStatusCounts}
+              label="Filter my polls by status"
+            />
+          </div>
+        )}
       </motion.div>
       {/* wrap-poll */}
       <motion.div className="mx-auto flex px-4 justify-center"
@@ -378,7 +443,21 @@ const Polls: React.FC = () => {
         {/* poll-grid */}
         {openPolls && polls.length > 0 && (
           <div className="grid gap-6 w-full my-10 mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-            {polls.map((poll) => (
+            {filteredPolls.length === 0 && (
+              <div className="col-span-full flex justify-center py-10">
+                <p
+                  className="text-sm rounded-full border px-4 py-2"
+                  style={{
+                    color: 'var(--text-muted)',
+                    backgroundColor: 'var(--toggle-inactive-bg)',
+                    borderColor: 'var(--toggle-inactive-border)',
+                  }}
+                >
+                  No {myFilter} polls yet
+                </p>
+              </div>
+            )}
+            {filteredPolls.map((poll) => (
               // card
               <div
                 key={poll.uuid}
@@ -399,20 +478,20 @@ const Polls: React.FC = () => {
                   {/* active-button */}
                   <div className="flex items-center justify-between mr-3">
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full -rotate-6"
-                      style={{ backgroundColor: poll.active ? 'var(--pill-active-bg)' : 'var(--pill-inactive-bg)' }}
+                      style={{ backgroundColor: getPollStatus(poll) === "active" ? 'var(--pill-active-bg)' : 'var(--pill-inactive-bg)' }}
                     >
 
                       <div className="relative w-1.5 h-1.5">
-                        {poll.active && (
+                        {getPollStatus(poll) === "active" && (
                           <div className="absolute inset-0 rounded-full animate-ping"
                             style={{ backgroundColor: '#4CAF50', opacity: 0.6 }} />
                         )}
                         <div className="relative w-1.5 h-1.5 rounded-full"
-                          style={{ backgroundColor: poll.active ? '#4CAF50' : '#F44336' }} />
+                          style={{ backgroundColor: getPollStatus(poll) === "active" ? '#4CAF50' : '#F44336' }} />
                       </div>
 
                       <span className="text-[10px] font-bold text-gray-700 " style={{ color: 'var(--pill-text)' }}>
-                        {poll.active ? "Active" : "Closed"}
+                        {getPollStatus(poll) === "active" ? "Active" : "Closed"}
                       </span>
                     </div>
                   </div>

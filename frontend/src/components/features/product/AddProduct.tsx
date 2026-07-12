@@ -118,9 +118,10 @@ export default function AddProductCard({ getProducts, setOpenCard }: ProductProp
                                 {/* product-image-container */}
                                 <div className="w-50 max-h-57.5 aspect-square rounded-xl overflow-hidden shrink-0 hover:text-[#0096FF] ">
                                     <div
-                                        className="h-full   backdrop-blur-[10px] border-2 border-dashed 
-                                            border-[#cbd5f5] rounded-[30px] p-6 flex flex-col items-center justify-center cursor-pointer
+                                        className="h-full   backdrop-blur-[10px] border-2 border-dashed
+                                            rounded-[30px] p-6 flex flex-col items-center justify-center cursor-pointer
                                             transition-all duration-250 hover:border-[#F25E0D] hover:bg-[rgba(246,143,92,0.05)]"
+                                        style={{ borderColor: 'var(--card-border)' }}
                                     >
                                         {/* create-icon */}
                                         <div className="w-14 h-14 flex items-center justify-center mb-4">

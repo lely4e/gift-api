@@ -593,9 +593,18 @@ export default function Products({
                     )}
 
                     {!hasMore && products.length > 0 && (
-                        <p className="text-center text-sm py-4" style={{ color: 'var(--text-muted)' }}>
-                            No more products
-                        </p>
+                        <div className="flex justify-center py-4">
+                            <p
+                                className="text-sm rounded-full border px-4 py-2"
+                                style={{
+                                    color: 'var(--text-muted)',
+                                    backgroundColor: 'var(--toggle-inactive-bg)',
+                                    borderColor: 'var(--toggle-inactive-border)',
+                                }}
+                            >
+                                No more products
+                            </p>
+                        </div>
                     )}
                 </div>
             </div>

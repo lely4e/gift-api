@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom"
 import { UserProvider } from './context/UserContext';
 import Signup from "./pages/Signup"
 import Login from "./pages/Login"
@@ -11,6 +11,9 @@ import IdeaAdd from "./pages/IdeaAdd"
 import Profile from "./pages/Profile"
 import Search from "./components/features/search/Search"
 import Ideas from "./components/features/ideas/Ideas"
+import DemoPolls from "./pages/DemoPolls"
+import DemoPoll from "./pages/DemoPoll"
+import { DemoProvider } from "./context/DemoContext"
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/layout/Footer"
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
@@ -63,6 +66,10 @@ function AppContent() {
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/polls/:uuid/search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
                 <Route path="/polls/:uuid/ideas" element={<ProtectedRoute><Ideas title={""} budget={0} /></ProtectedRoute>} />
+                <Route path="/demo" element={<DemoProvider><Outlet /></DemoProvider>}>
+                  <Route index element={<DemoPolls />} />
+                  <Route path="polls/:uuid" element={<DemoPoll />} />
+                </Route>
               </Routes>
             </main>
             <Footer />

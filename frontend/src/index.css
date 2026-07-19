@@ -42,6 +42,7 @@
     --pill-inactive-bg: #FFCDD2;
     --pill-text: #374151;
     --pill-text-hover: #f8f8fa;
+    --winner-badge-bg: #FEF3C7;
 
     --progress-track: #C7CBD1;
     --progress-track-button: #bbc6dc;
@@ -63,6 +64,9 @@
     --segment-selected-bg: #22232F;
     --segment-selected-text: #FFFFFF;
     --segment-selected-count-text: rgba(255, 255, 255, 0.75);
+
+    --demo-banner-bg: var(--segment-selected-bg);
+    --demo-banner-text: var(--segment-selected-text);
 
     --gradient: linear-gradient(-45deg, #beb0fc, #ffcecc, #d8ecff, #fbdbd4);
 }
@@ -86,6 +90,7 @@
     --pill-inactive-bg: #8a1f2c;
     --pill-text: #c8cadf;
     --pill-text-hover: #f8f8fa;
+    --winner-badge-bg: #78350F;
 
     --progress-track: #4A4A5E;
     --progress-track-button: #2a2a3a;
@@ -107,6 +112,9 @@
     --segment-selected-bg: #F5F5F7;
     --segment-selected-text: #1B1624;
     --segment-selected-count-text: rgba(27, 22, 36, 0.75);
+
+    --demo-banner-bg: var(--segment-selected-bg);
+    --demo-banner-text: var(--segment-selected-text);
 
     /* --gradient: linear-gradient(-45deg, #262626, #000000, #0b1113); */
     --gradient: linear-gradient(-45deg, #1b1624);

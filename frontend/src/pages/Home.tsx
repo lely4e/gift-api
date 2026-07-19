@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { type FC, useState } from "react";
 import { motion } from "framer-motion";
@@ -281,8 +281,20 @@ const Home: FC = () => {
         initial={{ opacity: 0, x: 100, y: 50 }}
         animate={{ opacity: 1, x: 0, y: 0 }}
         transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50"
+        className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50 flex flex-col items-end gap-2.5"
       >
+        <Link
+          to="/demo"
+          className="rounded-full px-4 py-2 text-[13px] sm:text-sm font-semibold border backdrop-blur-md
+                     transition-colors hover:opacity-80"
+          style={{
+            borderColor: 'var(--card-border)',
+            color: 'var(--text-primary)',
+            backgroundColor: 'var(--card-bg)',
+          }}
+        >
+          Try the demo — no sign up
+        </Link>
         <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
           <button
             onClick={(e) => {

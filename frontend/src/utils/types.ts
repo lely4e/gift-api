@@ -50,6 +50,7 @@ export interface ProductsProps {
   sentinelRef: React.RefObject<HTMLDivElement | null>;
   loadingMore: boolean;
   hasMore: boolean;
+  pollActive?: boolean;
 }
 
 export interface IdeasProps {

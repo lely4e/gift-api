@@ -214,6 +214,7 @@ export default function PollPage() {
                     openCard={openCard}
                     setOpenCard={setOpenCard}
                     getPoll={getPoll}
+                    pollActive={poll.active}
                 />
             </motion.div>
 
@@ -231,6 +232,7 @@ export default function PollPage() {
                         sentinelRef={sentinelRef}
                         loadingMore={loadingMore}
                         hasMore={hasMore}
+                        pollActive={poll.active}
                     />
 
                 ) : (

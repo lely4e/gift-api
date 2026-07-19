@@ -18,6 +18,7 @@ interface ExtendedSearchProps extends SearchProps {
   getPoll?: () => Promise<void>;
   openCard?: boolean;
   setOpenCard?: React.Dispatch<React.SetStateAction<boolean>>;
+  pollActive?: boolean;
 }
 
 const truncate = (text: string, maxLength = 100) => {
@@ -32,6 +33,7 @@ export default function Search({
   openCard,
   setOpenCard,
   getPoll,
+  pollActive = true,
 }: ExtendedSearchProps) {
   const { uuid } = useParams<{ uuid: string }>();
 
@@ -183,20 +185,22 @@ export default function Search({
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            placeholder="Search Amazon or add a custom product +"
+            disabled={!pollActive}
+            placeholder={pollActive ? "Search Amazon or add a custom product +" : "This poll is closed"}
             className={`flex-1 h-12 px-5 text-base font-serif italic
                         border-0 border-b bg-transparent
                         placeholder:text-[#737791] placeholder:italic
                         focus:border-blue-500 focus:outline-none
+                        disabled:opacity-50 disabled:cursor-not-allowed
                         ${errors.title ? "border-red-400" : "border-[#737791]"}`}
           />
 
           <button
             onClick={handleSearch}
-            disabled={loading}
+            disabled={loading || !pollActive}
             className="flex items-center justify-center cursor-pointer
                        w-12 h-12 rounded-full bg-[#6366f1] text-white
-                       transition hover:bg-[#4F46E5] disabled:opacity-50"
+                       transition hover:bg-[#4F46E5] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               "..."
@@ -209,11 +213,12 @@ export default function Search({
 
           <button
             onClick={() => setOpenCard && setOpenCard((prev) => !prev)}
+            disabled={!pollActive}
             className="group relative flex items-center justify-center cursor-pointer
                        w-12 h-12 rounded-full transition hover:bg-[#B0B6CC]
                        poll-card  hover:text-white
                        shadow-[0_10px_25px_rgba(0,0,0,0.06),0_4px_10px_rgba(0,0,0,0.04)]
-                       duration-250 ease-in-out"
+                       duration-250 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
             style={{
               backgroundColor: 'var(--card-bg)',
             }}
@@ -221,7 +226,7 @@ export default function Search({
             {!openCard ? (
               <>
                 <PlusIcon size={20} weight="bold" />
-                <Tooltip text="Add Product" />
+                {pollActive && <Tooltip text="Add Product" />}
               </>
             ) : (
               <CaretUpIcon size={20} weight="bold" />
@@ -338,10 +343,10 @@ export default function Search({
                         <button
                           type="button"
                           onClick={() => handleAddProduct(product)}
-                          disabled={addedProduct.includes(product.link)}
+                          disabled={addedProduct.includes(product.link) || !pollActive}
                           className={`flex-3 h-10 rounded-full flex items-center justify-center
                                       text-white transition
-                                      ${addedProduct.includes(product.link)
+                                      ${addedProduct.includes(product.link) || !pollActive
                               ? "bg-[#B0B6CC] cursor-not-allowed"
                               : "bg-linear-to-br from-[#6366F1] to-[#A78BFA] hover:opacity-90 cursor-pointer"
                             }`}

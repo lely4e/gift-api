@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import ReactDOM from "react-dom";
 import confetti from "canvas-confetti";
 import { API_URL } from "../../../config";
-import { ChatCircleTextIcon, CheckIcon, DotIcon, ThumbsUpIcon, TrashSimpleIcon, XIcon } from "@phosphor-icons/react";
+import { ChatCircleTextIcon, CheckIcon, DotIcon, ThumbsUpIcon, TrashSimpleIcon, TrophyIcon, XIcon } from "@phosphor-icons/react";
 import { Tooltip } from "../../ui/Tooltip";
 import StarRating from "../../ui/Stars";
 
@@ -19,6 +19,7 @@ export default function Products({
     sentinelRef,
     loadingMore,
     hasMore,
+    pollActive = true,
 }: ProductsProps) {
     const { user } = useUser();
 
@@ -231,6 +232,7 @@ export default function Products({
     };
 
     const totalVotes = products.reduce((sum, p) => sum + p.votes, 0);
+    const maxVotes = products.reduce((max, p) => Math.max(max, p.votes), 0);
 
 
     return (
@@ -284,6 +286,16 @@ export default function Products({
                                         </div>
                                     </div>
 
+                                    {!pollActive && maxVotes > 0 && product.votes === maxVotes && (
+                                        <div
+                                            className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full mb-1.5 text-[10px] font-bold tracking-[0.5px]"
+                                            style={{ backgroundColor: 'var(--winner-badge-bg)', color: 'var(--pill-text)' }}
+                                        >
+                                            <TrophyIcon size={12} weight="fill" />
+                                            WINNER
+                                        </div>
+                                    )}
+
                                     {/* product-title: "group" activates the Tooltip on hover */}
                                     <div
                                         className="group relative font-semibold text-[0.9rem] leading-[1.4] hover:text-[#0096FF] hover:cursor-pointer"
@@ -304,13 +316,14 @@ export default function Products({
                                             {user && user.id === product.user_id && (
                                                 <button
                                                     onClick={() => setOpen(product.id)}
-                                                    className="group relative 
-                                                
-                                                cursor-pointer whitespace-nowrap bg-transparent text-[0.85rem] 
-                                                rounded-[20px] flex gap-1.5 justify-center items-center hover:text-[#F25E0D] "
+                                                    disabled={!pollActive}
+                                                    className={`group relative
+                                                whitespace-nowrap bg-transparent text-[0.85rem]
+                                                rounded-[20px] flex gap-1.5 justify-center items-center
+                                                ${pollActive ? "cursor-pointer hover:text-[#F25E0D]" : "opacity-40 cursor-not-allowed"}`}
                                                 >
                                                     <TrashSimpleIcon size={17} strokeWidth={2} data-testid="delete-icon" />
-                                                    <Tooltip text="Delete Product" />
+                                                    {pollActive && <Tooltip text="Delete Product" />}
                                                 </button>
                                             )}
                                         </div>
@@ -431,13 +444,16 @@ export default function Products({
                                                 e.stopPropagation();
                                                 handleVote(product.id, product.has_voted, e);
                                             }}
+                                            disabled={!pollActive}
                                             style={{ backgroundColor: 'var(--progress-track-button)' }}
-                                            className={`group relative flex w-full rounded-full items-center justify-center 
-                                                gap-2.5 py-4 transition-colors duration-200 text-white hover:shadow-[0_6px_28px_rgba(255,138,91,0.5)]
-                   
-                                            ${!product.has_voted
-                                                    ? "bg-linear-to-r from-[#ff6a00] to-[#ec4899] cursor-pointer"
-                                                    : "bg-[#B0B6CC] "
+                                            className={`group relative flex w-full rounded-full items-center justify-center
+                                                gap-2.5 py-4 transition-colors duration-200 text-white
+
+                                            ${!pollActive
+                                                    ? "bg-[#B0B6CC] opacity-50 cursor-not-allowed"
+                                                    : !product.has_voted
+                                                        ? "bg-linear-to-r from-[#ff6a00] to-[#ec4899] cursor-pointer hover:shadow-[0_6px_28px_rgba(255,138,91,0.5)]"
+                                                        : "bg-[#B0B6CC] cursor-pointer hover:shadow-[0_6px_28px_rgba(255,138,91,0.5)]"
                                                 }`}
                                         >
                                             {!product.has_voted ? (
@@ -445,13 +461,15 @@ export default function Products({
                                             ) : (
                                                 <CheckIcon size={24} strokeWidth={2} data-testid="voted-button-icon" />
                                             )}
-                                            <Tooltip
-                                                text={
-                                                    !product.has_voted
-                                                        ? "Vote for this Product!"
-                                                        : "Voted"
-                                                }
-                                            />
+                                            {pollActive && (
+                                                <Tooltip
+                                                    text={
+                                                        !product.has_voted
+                                                            ? "Vote for this Product!"
+                                                            : "Voted"
+                                                    }
+                                                />
+                                            )}
                                         </button>
                                     </div>
 

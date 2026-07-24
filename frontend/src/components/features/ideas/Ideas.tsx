@@ -75,7 +75,7 @@ export default function Ideas({ getProducts, title, budget }: IdeasProps) {
   return (
     <>
       {/* wrap-poll */}
-      <div className="w-full">
+      <div className="w-full max-w-200 mx-auto">
         <div className="w-full">
           <section className="w-full">
             {/* add-poll-form */}

@@ -252,10 +252,10 @@ export default function SearchIdea({
                                         {/* Content */}
                                         <div className="flex flex-col gap-3 group relative">
                                             {/* Rating Price */}
-                                            <div className="flex justify-between items-center">
+                                            <div className="flex justify-between items-center gap-x-4">
                                                 <div className="flex items-center">
-                                                    <StarRating rating={product.rating} color="#F25E0D" />
-                                                    <span className="text-sm ml-0 text-[#737791] font-semibold" style={{ color: 'var(--text-primary)' }}>
+                                                    <StarRating rating={product.rating} color="#F25E0D" size={9} />
+                                                    <span className="text-xs ml-0.5 text-[#737791] font-semibold" style={{ color: 'var(--text-primary)' }}>
                                                         {product.rating}
                                                     </span>
                                                 </div>

@@ -4,7 +4,7 @@ import { SparkleIcon } from "@phosphor-icons/react";
 export default function DemoBanner() {
     return (
         <div
-            className="mt-5 rounded-full sticky top-0 z-40 w-full flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-2.5 text-[13px] font-medium text-center"
+            className="mt-5 sticky top-0 z-40 w-full flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-2.5 text-[13px] font-medium text-center"
             style={{ backgroundColor: 'var(--demo-banner-bg)', color: 'var(--demo-banner-text)' }}
         >
             <span className="inline-flex items-center gap-1.5">

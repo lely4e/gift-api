@@ -1,4 +1,5 @@
 import { ThumbsUpIcon, CheckIcon, TrashSimpleIcon, TrophyIcon } from "@phosphor-icons/react";
+import confetti from "canvas-confetti";
 import type { DemoProduct } from "../../data/demoData";
 import StarRating from "../ui/Stars";
 
@@ -12,6 +13,22 @@ type DemoProductCardProps = {
 };
 
 export default function DemoProductCard({ product, totalVotes, onVote, onDelete, disabled = false, isWinner = false }: DemoProductCardProps) {
+    const handleVoteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (!product.hasVoted) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = (rect.left + rect.width / 2) / window.innerWidth;
+            const y = (rect.top + rect.height / 2) / window.innerHeight;
+            confetti({
+                particleCount: 100,
+                spread: 90,
+                startVelocity: 40,
+                origin: { x, y },
+                colors: ["#F25E0D", "#0096FF", "#737791"],
+            });
+        }
+        onVote();
+    };
+
     return (
         <div
             className="relative poll-card sm:max-w-200 backdrop-blur-[10px] rounded-[30px] p-4 sm:p-6
@@ -90,7 +107,7 @@ export default function DemoProductCard({ product, totalVotes, onVote, onDelete,
                 </div>
 
                 <button
-                    onClick={onVote}
+                    onClick={handleVoteClick}
                     disabled={disabled}
                     style={{ backgroundColor: 'var(--progress-track-button)' }}
                     className={`group relative flex w-full rounded-full items-center justify-center

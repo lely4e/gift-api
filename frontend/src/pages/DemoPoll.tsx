@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -5,6 +6,7 @@ import {
     CalendarBlankIcon,
     CalendarCheckIcon,
     CalendarIcon,
+    CaretUpIcon,
     DotIcon,
     MagicWandIcon,
     ShareFatIcon,
@@ -13,6 +15,7 @@ import {
 import DemoLayout from "../components/demo/DemoLayout";
 import DemoProductCard from "../components/demo/DemoProductCard";
 import DemoProductSearch from "../components/demo/DemoProductSearch";
+import AIGiftIdeasForm from "../components/demo/AIGiftIdeasForm";
 import { useDemo } from "../context/DemoContext";
 import { daysLeft } from "../utils/date";
 import { getPollStatus } from "../utils/pollStatus";
@@ -20,6 +23,7 @@ import { getPollStatus } from "../utils/pollStatus";
 export default function DemoPoll() {
     const { uuid } = useParams<{ uuid: string }>();
     const { getPoll, voteProduct, deleteProduct, openSignupPrompt } = useDemo();
+    const [showAiIdeas, setShowAiIdeas] = useState(false);
 
     const poll = uuid ? getPoll(uuid) : undefined;
 
@@ -132,13 +136,17 @@ export default function DemoPoll() {
 
                         <div className="flex flex-wrap items-center gap-2 mt-auto">
                             <button
-                                onClick={openSignupPrompt}
+                                onClick={() => setShowAiIdeas((prev) => !prev)}
                                 className="flex items-center gap-2 font-medium text-[14px] text-white
                                            bg-linear-to-r from-[#9900ff] to-pink-500
                                            rounded-full px-4 py-3 cursor-pointer
                                            transition duration-300 hover:scale-105"
                             >
-                                <MagicWandIcon size={14} weight="fill" />
+                                {!showAiIdeas ? (
+                                    <MagicWandIcon size={14} weight="fill" />
+                                ) : (
+                                    <CaretUpIcon size={14} weight="bold" />
+                                )}
                                 <span>Get AI gift ideas</span>
                             </button>
                         </div>
@@ -148,6 +156,8 @@ export default function DemoPoll() {
 
             <motion.div className="flex flex-col items-center mt-6"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.6 }}>
+                {showAiIdeas && <AIGiftIdeasForm title={poll.title} />}
+
                 <h1 className="text-[1.5em] leading-tight pt-10 font-black" style={{ color: 'var(--text-heading)' }}>
                     Products
                 </h1>

@@ -96,7 +96,7 @@ const MyIdeasPage: React.FC = () => {
     };
 
     return (
-        <>
+        <div className="max-w-300 mx-auto px-4">
             <div className="flex justify-between items-center mr-5 text-center">
                 <motion.div
                     className="flex flex-col items-center mx-auto"
@@ -313,7 +313,7 @@ const MyIdeasPage: React.FC = () => {
                     <CreateCard address={"/add-idea"} text={"Create Idea"} />
                 </div>
             </motion.div>
-        </>
+        </div>
     );
 };
 

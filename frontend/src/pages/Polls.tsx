@@ -122,7 +122,7 @@ const Polls: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="max-w-300 mx-auto px-4">
       {/* wrap-title-poll */}
       <motion.div className="flex justify-between items-start text-center"
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -645,7 +645,7 @@ const Polls: React.FC = () => {
           </div>
         )}
       </motion.div>
-    </>
+    </div>
   );
 };
 

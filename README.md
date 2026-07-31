@@ -1,9 +1,9 @@
-# 🎈 Choosr — Collaborative Polls & Event Voting App
+# 🎈 choosr - Collaborative Group Voting App
 ![App Screenshot](./assets/main_page14.jpg)
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.118.0-009688.svg)
-![React](https://img.shields.io/badge/React-18-61DAFB.svg?logo=react)
+![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6.svg?logo=typescript)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-336791.svg)
 ![Redis](https://img.shields.io/badge/Redis-Caching-DC382D.svg?logo=redis)
@@ -138,31 +138,14 @@ The app uses **8 tables** with clear separation of concerns:
 
 * 🔑 Keep sensitive data in `.env` — never commit it
 * 🚫 Use `.gitignore` and 🐋 `.dockerignore` to avoid uploading unnecessary or secret files
-* 🚀 Run locally via `uvicorn app.main:app --reload` or use Docker for production parity
+* 🚀 Run locally via `uvicorn main:app --reload` or use Docker for production parity
 * 🔴 Ensure Redis is running locally before starting the server (`redis-server`)
 * 🗃️ Always run `alembic upgrade head` after pulling new migrations
 
 
 ## 📌 Dependencies
 
-```
-fastapi==0.118.0
-uvicorn==0.37.0
-SQLAlchemy==2.0.44
-psycopg2==2.9.11
-python-dotenv==1.1.1
-pydantic-settings==2.11.0
-pydantic==2.11.10
-python-multipart==0.0.20
-email-validator==2.3.0
-bcrypt==5.0.0
-argon2-cffi==25.1.0
-requests==2.32.5
-PyJWT==2.10.1
-alembic
-redis
-apscheduler
-```
+Full pinned list lives in [`backend/requirements.txt`](./backend/requirements.txt) — kept here only as a curated summary so this table doesn't drift out of sync with it.
 
 ### Dependency Highlights
 
@@ -176,6 +159,9 @@ apscheduler
 | `apscheduler`             | Cron job for poll deadline management        |
 | `python-dotenv`           | `.env` file management                       |
 | `email-validator`         | Email format validation on registration      |
+| `fastapi-pagination`      | Cursor/page-based pagination for list endpoints |
+| `slowapi`                 | Rate limiting on public/auth endpoints       |
+| `google-genai`            | Google Gemini client for AI gift suggestions |
 
 ---
 

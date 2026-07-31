@@ -13,7 +13,7 @@ export default function Navbar() {
   // NOT LOGGED IN
   if (!user) {
     return (
-      <header className="w-full">
+      <header className="w-full mt-7.5">
         <div className="flex justify-between items-center px-4 max-w-300 mx-auto">
           <Link to="/" className="flex items-center">
             <img src={logoImg} alt="logo" className="w-22 sm:w-26" />
@@ -35,7 +35,7 @@ export default function Navbar() {
 
   // LOGGED IN
   return (
-    <header className="w-full">
+    <header className="w-full mt-7.5">
       <div className="flex justify-between items-center px-4 max-w-300 mx-auto h-14">
 
         {/* LOGO */}

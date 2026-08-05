@@ -60,7 +60,7 @@ const RotatingSubtitle: FC = () => {
           <DiceFiveIcon size="1.1em" weight="fill" />
         </motion.span>
         <p
-          className="font-serif italic text-left whitespace-normal sm:whitespace-nowrap"
+          className="ml-2 font-serif italic text-left whitespace-normal sm:whitespace-nowrap"
           style={{ color: "var(--text-inactive)" }}
         >
           {situation.text.slice(0, typedChars)}

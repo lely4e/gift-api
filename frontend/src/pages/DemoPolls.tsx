@@ -29,6 +29,7 @@ export default function DemoPolls() {
 
   return (
     <DemoLayout>
+      <div className="max-w-300 mx-auto px-4">
       {/* wrap-title-poll */}
       <motion.div className="flex justify-between items-start text-center"
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -82,7 +83,7 @@ export default function DemoPolls() {
         )}
       </motion.div>
       {/* wrap-poll */}
-      <motion.div className="mx-auto flex px-4 justify-center"
+      <motion.div className="flex justify-center"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.6 }}>
         {openSharedPolls && sharedPolls.length > 0 && (
           <div className="grid gap-6 w-full my-10 mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -145,7 +146,7 @@ export default function DemoPolls() {
         )}
       </motion.div>
       {/* wrap-poll */}
-      <motion.div className="mx-auto flex px-4 justify-center"
+      <motion.div className="flex justify-center"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.6 }}>
         {openPolls && myPolls.length > 0 && (
           <div className="grid gap-6 w-full my-10 mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -175,6 +176,7 @@ export default function DemoPolls() {
           </div>
         )}
       </motion.div>
+      </div>
 
       <CreatePollModal isOpen={createOpen} onClose={() => setCreateOpen(false)} />
     </DemoLayout>
